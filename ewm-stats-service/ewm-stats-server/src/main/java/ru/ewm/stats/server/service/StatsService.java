@@ -1,6 +1,6 @@
 package ru.ewm.stats.server.service;
 
-import ru.ewm.stats.server.dto.EndpointHitRequestDto;
+import ru.ewm.stats.common.dto.EndpointHitRequestDto;
 import ru.ewm.stats.server.model.EndpointHit;
 import ru.ewm.stats.server.model.ViewStats;
 
