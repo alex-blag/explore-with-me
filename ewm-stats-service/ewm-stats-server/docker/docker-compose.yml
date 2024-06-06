@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  stats-database:
+    image: postgres:15.7-alpine
+    container_name: stats-database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=stats
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+
+  stats-service:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    image: stats-service
+    container_name: stats-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - stats-database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-database:5432/stats
+      - SPRING_DATASOURCE_USERNAME=dev
+      - SPRING_DATASOURCE_PASSWORD=dev
