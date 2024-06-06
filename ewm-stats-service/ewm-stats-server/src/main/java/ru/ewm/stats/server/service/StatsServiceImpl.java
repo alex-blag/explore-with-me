@@ -3,7 +3,7 @@ package ru.ewm.stats.server.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.ewm.stats.server.dto.EndpointHitRequestDto;
+import ru.ewm.stats.common.dto.EndpointHitRequestDto;
 import ru.ewm.stats.server.mapper.StatsMapper;
 import ru.ewm.stats.server.model.EndpointHit;
 import ru.ewm.stats.server.model.ServiceApp;
