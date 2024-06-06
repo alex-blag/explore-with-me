@@ -33,7 +33,22 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<ViewStats> findAll(LocalDateTime begin, LocalDateTime end, List<String> uris, boolean unique) {
-        throw new UnsupportedOperationException();
+        List<ViewStats> viewStats;
+
+        if (!uris.isEmpty() && unique) {
+            viewStats = endpointHitRepository.findAllDistinctIp4ByTimestampBetweenAndUriIn(begin, end, uris);
+
+        } else if (!uris.isEmpty()) {
+            viewStats = endpointHitRepository.findAllByTimestampBetweenAndUriIn(begin, end, uris);
+
+        } else if (unique) {
+            viewStats = endpointHitRepository.findAllDistinctIp4ByTimestampBetween(begin, end);
+
+        } else {
+            viewStats = endpointHitRepository.findAllByTimestampBetween(begin, end);
+        }
+
+        return viewStats;
     }
 
     @Transactional

@@ -14,6 +14,7 @@ import ru.ewm.stats.server.dto.EndpointHitResponseDto;
 import ru.ewm.stats.server.dto.ViewStatsResponseDto;
 import ru.ewm.stats.server.mapper.StatsMapper;
 import ru.ewm.stats.server.model.EndpointHit;
+import ru.ewm.stats.server.model.ViewStats;
 import ru.ewm.stats.server.service.StatsService;
 
 import javax.validation.Valid;
@@ -45,7 +46,8 @@ public class StatsController {
             @RequestParam(defaultValue = "") List<String> uris,
             @RequestParam(defaultValue = "false") boolean unique
     ) {
-        throw new UnsupportedOperationException();
+        List<ViewStats> viewStats = statsService.findAll(begin, end, uris, unique);
+        return statsMapper.toViewStatsResponseDtos(viewStats);
     }
 
 }
