@@ -1,6 +1,5 @@
 package ru.ewm.stats.common.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -20,7 +19,6 @@ public class EndpointHitRequestDto {
     private String ip4;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
 }
