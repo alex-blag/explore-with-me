@@ -1,4 +1,4 @@
-package ru.ewm.main.dto;
+package ru.ewm.main.dto.category;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class CategoryUpdateRequestDto {
+public class CategoryCreateRequestDto {
 
     @NotBlank
     @Size(max = 120)
