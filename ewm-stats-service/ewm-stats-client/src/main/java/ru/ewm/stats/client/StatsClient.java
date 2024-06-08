@@ -1,8 +1,8 @@
-package ru.ewm.stats.common;
+package ru.ewm.stats.client;
 
-import ru.ewm.stats.common.dto.EndpointHitRequestDto;
-import ru.ewm.stats.common.dto.EndpointHitResponseDto;
-import ru.ewm.stats.common.dto.ViewStatsResponseDto;
+import ru.ewm.stats.dto.EndpointHitRequestDto;
+import ru.ewm.stats.dto.EndpointHitResponseDto;
+import ru.ewm.stats.dto.ViewStatsResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

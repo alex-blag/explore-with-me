@@ -1,4 +1,4 @@
-package ru.ewm.stats.common.dto;
+package ru.ewm.stats.dto;
 
 import lombok.Data;
 

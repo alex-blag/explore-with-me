@@ -2,9 +2,9 @@ package ru.ewm.stats.server.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.ewm.stats.common.dto.EndpointHitRequestDto;
-import ru.ewm.stats.common.dto.EndpointHitResponseDto;
-import ru.ewm.stats.common.dto.ViewStatsResponseDto;
+import ru.ewm.stats.dto.EndpointHitRequestDto;
+import ru.ewm.stats.dto.EndpointHitResponseDto;
+import ru.ewm.stats.dto.ViewStatsResponseDto;
 import ru.ewm.stats.server.model.EndpointHit;
 import ru.ewm.stats.server.model.ServiceApp;
 import ru.ewm.stats.server.model.ViewStats;
