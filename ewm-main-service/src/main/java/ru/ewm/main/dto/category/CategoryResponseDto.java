@@ -1,4 +1,4 @@
-package ru.ewm.main.dto;
+package ru.ewm.main.dto.category;
 
 import lombok.Data;
 

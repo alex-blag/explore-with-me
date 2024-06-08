@@ -1,7 +1,7 @@
 package ru.ewm.main.service.category;
 
-import ru.ewm.main.dto.CategoryCreateRequestDto;
-import ru.ewm.main.dto.CategoryUpdateRequestDto;
+import ru.ewm.main.dto.category.CategoryCreateRequestDto;
+import ru.ewm.main.dto.category.CategoryUpdateRequestDto;
 import ru.ewm.main.model.Category;
 
 public interface CategoryAdminService {
