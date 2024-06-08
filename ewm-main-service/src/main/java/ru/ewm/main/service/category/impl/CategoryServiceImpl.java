@@ -10,7 +10,6 @@ import ru.ewm.main.model.Category;
 import ru.ewm.main.repository.CategoryRepository;
 import ru.ewm.main.service.category.CategoryService;
 
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

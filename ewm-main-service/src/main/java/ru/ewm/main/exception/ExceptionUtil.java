@@ -12,4 +12,10 @@ public class ExceptionUtil {
         );
     }
 
+    public static UserNotFoundException getUserNotFoundException(long userId) {
+        return new UserNotFoundException(
+                String.format("%s [userId = %d]", ExceptionMessage.USER_NOT_FOUND, userId)
+        );
+    }
+
 }
