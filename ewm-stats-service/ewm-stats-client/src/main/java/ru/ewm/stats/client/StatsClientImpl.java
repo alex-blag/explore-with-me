@@ -1,4 +1,4 @@
-package ru.ewm.stats.common;
+package ru.ewm.stats.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.ewm.stats.common.dto.EndpointHitRequestDto;
-import ru.ewm.stats.common.dto.EndpointHitResponseDto;
-import ru.ewm.stats.common.dto.ViewStatsResponseDto;
+import ru.ewm.stats.dto.EndpointHitRequestDto;
+import ru.ewm.stats.dto.EndpointHitResponseDto;
+import ru.ewm.stats.dto.ViewStatsResponseDto;
 
 import java.net.URI;
 import java.time.LocalDateTime;
