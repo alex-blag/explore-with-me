@@ -1,0 +1,25 @@
+services:
+  main-database:
+    image: postgres:15.7-alpine
+    container_name: main-database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=main
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+
+  main-service:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    image: main-service
+    container_name: main-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - main-database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-database:5432/main
+      - SPRING_DATASOURCE_USERNAME=dev
+      - SPRING_DATASOURCE_PASSWORD=dev
