@@ -10,4 +10,6 @@ public class ExceptionMessage {
 
     public static final String USER_NOT_FOUND = "User not found";
 
+    public static final String LOCATION_NOT_FOUND = "Location not found";
+
 }

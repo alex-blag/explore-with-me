@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS categories (
 
 CREATE TABLE IF NOT EXISTS locations (
     id              BIGINT          GENERATED ALWAYS AS IDENTITY
-    , name          VARCHAR(120)
+    , name          VARCHAR(120)    NOT NULL
     , lat           NUMERIC(8, 6)   NOT NULL
     , lon           NUMERIC(9, 6)   NOT NULL
-    , description   VARCHAR(7000)
+    , description   VARCHAR(7000)   NOT NULL
 
     , CONSTRAINT pk_locations PRIMARY KEY (id)
     , CONSTRAINT uq_locations__lat__lon UNIQUE (lat, lon)
