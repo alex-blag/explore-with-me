@@ -12,4 +12,6 @@ public class ExceptionMessage {
 
     public static final String LOCATION_NOT_FOUND = "Location not found";
 
+    public static final String EVENT_NOT_FOUND = "Event not found";
+
 }

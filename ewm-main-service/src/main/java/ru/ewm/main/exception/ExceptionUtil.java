@@ -24,4 +24,10 @@ public class ExceptionUtil {
         );
     }
 
+    public static EventNotFoundException getEventNotFoundException(long eventId) {
+        return new EventNotFoundException(
+                String.format("%s [eventId = %d]", ExceptionMessage.EVENT_NOT_FOUND, eventId)
+        );
+    }
+
 }
