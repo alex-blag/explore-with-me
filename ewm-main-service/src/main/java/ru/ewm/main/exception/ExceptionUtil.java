@@ -18,4 +18,10 @@ public class ExceptionUtil {
         );
     }
 
+    public static LocationNotFoundException getLocationNotFoundException(long locationId) {
+        return new LocationNotFoundException(
+                String.format("%s [locationId = %d]", ExceptionMessage.LOCATION_NOT_FOUND, locationId)
+        );
+    }
+
 }
