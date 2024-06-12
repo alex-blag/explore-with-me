@@ -3,6 +3,8 @@ package ru.ewm.main.exception;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExceptionUtil {
 
@@ -27,6 +29,17 @@ public class ExceptionUtil {
     public static EventNotFoundException getEventNotFoundException(long eventId) {
         return new EventNotFoundException(
                 String.format("%s [eventId = %d]", ExceptionMessage.EVENT_NOT_FOUND, eventId)
+        );
+    }
+
+    public static EventDateIsTooEarlyException getEventDateIsTooEarlyException(long eventId, LocalDateTime eventDate) {
+        return new EventDateIsTooEarlyException(
+                String.format(
+                        "%s [eventId = %d, eventDate = %s]",
+                        ExceptionMessage.EVENT_DATE_IS_TOO_EARLY,
+                        eventId,
+                        eventDate
+                )
         );
     }
 

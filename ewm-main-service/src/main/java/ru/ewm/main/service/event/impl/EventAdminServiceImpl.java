@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.dto.event.EventAdminParams;
 import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
+import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.mapper.EventMapper;
 import ru.ewm.main.model.Category;
 import ru.ewm.main.model.Event;
@@ -16,10 +17,14 @@ import ru.ewm.main.service.event.EventAdminService;
 import ru.ewm.main.service.event.EventService;
 import ru.ewm.main.service.location.LocationAdminService;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EventAdminServiceImpl implements EventAdminService {
+
+    private static final long ONE_HOUR_BEFORE_EARLY_START = 1;
 
     private final EventService eventService;
     private final EventMapper eventMapper;
@@ -31,7 +36,9 @@ public class EventAdminServiceImpl implements EventAdminService {
     public Event updateById(long id, EventUpdateAdminRequestDto eventUpdateAdminRequestDto) {
         Event event = eventService.getByIdOrThrow(id);
 
-        // TODO -- check event date is after early start or throw
+        checkEventDateIsAfterEarlyStartOrThrow(
+                id, eventUpdateAdminRequestDto.getEventDate(), ONE_HOUR_BEFORE_EARLY_START
+        );
 
         Category category = getUpdatedCategoryOrCurrent(
                 eventUpdateAdminRequestDto.getCategoryId(), event.getCategory()
@@ -41,7 +48,6 @@ public class EventAdminServiceImpl implements EventAdminService {
                 eventUpdateAdminRequestDto.getLocationId(), event.getLocation()
         );
 
-        // TODO -- initiator ?
         // TODO -- update publishedOn and state
 
         eventMapper.updateEvent(eventUpdateAdminRequestDto, category, location, event);
@@ -91,6 +97,19 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
 
         return category;
+    }
+
+    private void checkEventDateIsAfterEarlyStartOrThrow(
+            long eventId, LocalDateTime eventDate, long hoursBeforeEarlyStart
+    ) {
+        if (eventDate == null) {
+            return;
+        }
+
+        LocalDateTime earlyStart = LocalDateTime.now().plusHours(hoursBeforeEarlyStart);
+        if (eventDate.isBefore(earlyStart)) {
+            throw ExceptionUtil.getEventDateIsTooEarlyException(eventId, eventDate);
+        }
     }
 
 }
