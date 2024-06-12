@@ -14,6 +14,8 @@ public interface LocationAdminService {
 
     Location updateById(long id, LocationUpdateRequestDto locationUpdateRequestDto);
 
+    Location getByIdOrThrow(long id);
+
     Page<Location> findAllByIds(List<Long> ids, Pageable pageable);
 
     void deleteById(long id);

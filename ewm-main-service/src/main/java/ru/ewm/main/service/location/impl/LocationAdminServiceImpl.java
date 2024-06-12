@@ -38,6 +38,11 @@ public class LocationAdminServiceImpl implements LocationAdminService {
     }
 
     @Override
+    public Location getByIdOrThrow(long id) {
+        return locationService.getByIdOrThrow(id);
+    }
+
+    @Override
     public Page<Location> findAllByIds(List<Long> ids, Pageable pageable) {
         return locationService.findAllByIds(ids, pageable);
     }
@@ -45,7 +50,7 @@ public class LocationAdminServiceImpl implements LocationAdminService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        // TODO -- check location has no associated events or throw
+        // TODO -- check location has no associated events or throw ?
         locationService.deleteById(id);
     }
 
