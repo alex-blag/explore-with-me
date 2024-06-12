@@ -15,13 +15,13 @@ public class UserPrivateServiceImpl implements UserPrivateService {
     private final UserService userService;
 
     @Override
-    public User getByIdOrThrow(long id) {
-        return userService.getByIdOrThrow(id);
+    public boolean existsById(long id) {
+        return userService.existsById(id);
     }
 
     @Override
-    public boolean existsById(long id) {
-        return userService.existsById(id);
+    public User getByIdOrThrow(long id) {
+        return userService.getByIdOrThrow(id);
     }
 
 }

@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS events (
     , participant_limit     INT             DEFAULT 0
     , published_on          TIMESTAMP
     , request_moderation    BOOLEAN         DEFAULT TRUE
-    , state                 VARCHAR(120)    NOT NULL
+    , state                 VARCHAR(120)    CHECK (state IN ('PENDING', 'PUBLISHED', 'CANCELED'))
     , title                 VARCHAR(120)    NOT NULL
 
     , CONSTRAINT pk_events PRIMARY KEY (id)
