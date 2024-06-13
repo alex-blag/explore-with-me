@@ -14,6 +14,12 @@ public class ExceptionMessage {
 
     public static final String EVENT_NOT_FOUND = "Event not found";
 
-    public static final String EVENT_DATE_IS_TOO_EARLY = "Event date is too early";
+    public static final String EVENT_DATE_TOO_EARLY = "Event date too early";
+
+    public static final String EVENT_NOT_PENDING = "Event not pending";
+
+    public static final String EVENT_NOT_PUBLISHED = "Event not published";
+
+    public static final String EVENT_ALREADY_PUBLISHED = "Event already published";
 
 }

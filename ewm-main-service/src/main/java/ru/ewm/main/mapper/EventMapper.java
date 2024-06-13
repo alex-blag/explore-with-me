@@ -13,6 +13,7 @@ import ru.ewm.main.dto.event.EventState;
 import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
 import ru.ewm.main.model.Category;
 import ru.ewm.main.model.Event;
+import ru.ewm.main.model.EventPublishedState;
 import ru.ewm.main.model.Location;
 import ru.ewm.main.model.State;
 
@@ -37,13 +38,14 @@ public interface EventMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "initiator", ignore = true)
-    @Mapping(target = "publishedOn", ignore = true)
-    @Mapping(target = "state", ignore = true)
+    @Mapping(target = "publishedOn", source = "eventPublishedState.publishedOn")
+    @Mapping(target = "state", source = "eventPublishedState.state")
     @Mapping(target = "description", source = "eventUpdateAdminRequestDto.description")
     void updateEvent(
             EventUpdateAdminRequestDto eventUpdateAdminRequestDto,
             Category category,
             Location location,
+            EventPublishedState eventPublishedState,
             @MappingTarget Event event
     );
 

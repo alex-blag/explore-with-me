@@ -2,6 +2,11 @@ package ru.ewm.main.exception;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import ru.ewm.main.exception.event.EventAlreadyPublishedException;
+import ru.ewm.main.exception.event.EventDateTooEarlyException;
+import ru.ewm.main.exception.event.EventNotFoundException;
+import ru.ewm.main.exception.event.EventNotPendingException;
+import ru.ewm.main.model.State;
 
 import java.time.LocalDateTime;
 
@@ -32,13 +37,35 @@ public class ExceptionUtil {
         );
     }
 
-    public static EventDateIsTooEarlyException getEventDateIsTooEarlyException(long eventId, LocalDateTime eventDate) {
-        return new EventDateIsTooEarlyException(
+    public static EventDateTooEarlyException getEventDateTooEarlyException(long eventId, LocalDateTime eventDate) {
+        return new EventDateTooEarlyException(
                 String.format(
                         "%s [eventId = %d, eventDate = %s]",
-                        ExceptionMessage.EVENT_DATE_IS_TOO_EARLY,
+                        ExceptionMessage.EVENT_DATE_TOO_EARLY,
                         eventId,
                         eventDate
+                )
+        );
+    }
+
+    public static EventNotPendingException getEventNotPendingException(long eventId, State state) {
+        return new EventNotPendingException(
+                String.format(
+                        "%s [eventId = %d, state = %s]",
+                        ExceptionMessage.EVENT_NOT_PENDING,
+                        eventId,
+                        state.name()
+                )
+        );
+    }
+
+    public static EventAlreadyPublishedException getEventAlreadyPublishedException(long eventId, State state) {
+        return new EventAlreadyPublishedException(
+                String.format(
+                        "%s [eventId = %d, state = %s]",
+                        ExceptionMessage.EVENT_ALREADY_PUBLISHED,
+                        eventId,
+                        state.name()
                 )
         );
     }
