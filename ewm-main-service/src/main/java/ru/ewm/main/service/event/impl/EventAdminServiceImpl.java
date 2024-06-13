@@ -6,18 +6,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.dto.event.EventAdminParams;
+import ru.ewm.main.dto.event.EventStateAdminAction;
 import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
 import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.mapper.EventMapper;
 import ru.ewm.main.model.Category;
 import ru.ewm.main.model.Event;
+import ru.ewm.main.model.EventPublishedState;
 import ru.ewm.main.model.Location;
+import ru.ewm.main.model.State;
 import ru.ewm.main.service.category.CategoryAdminService;
 import ru.ewm.main.service.event.EventAdminService;
 import ru.ewm.main.service.event.EventService;
 import ru.ewm.main.service.location.LocationAdminService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,7 +40,7 @@ public class EventAdminServiceImpl implements EventAdminService {
     public Event updateById(long id, EventUpdateAdminRequestDto eventUpdateAdminRequestDto) {
         Event event = eventService.getByIdOrThrow(id);
 
-        checkEventDateIsAfterEarlyStartOrThrow(
+        checkEventDateAfterEarlyStartOrThrow(
                 id, eventUpdateAdminRequestDto.getEventDate(), ONE_HOUR_BEFORE_EARLY_START
         );
 
@@ -48,9 +52,11 @@ public class EventAdminServiceImpl implements EventAdminService {
                 eventUpdateAdminRequestDto.getLocationId(), event.getLocation()
         );
 
-        // TODO -- update publishedOn and state
+        EventPublishedState eventPublishedState = getEventPublishedState(
+                event.getId(), event.getState(), eventUpdateAdminRequestDto.getStateAction()
+        );
 
-        eventMapper.updateEvent(eventUpdateAdminRequestDto, category, location, event);
+        eventMapper.updateEvent(eventUpdateAdminRequestDto, category, location, eventPublishedState, event);
 
         // TODO -- update confirmed requests and views ?
 
@@ -59,9 +65,11 @@ public class EventAdminServiceImpl implements EventAdminService {
 
     @Override
     public Page<Event> findAllByParams(EventAdminParams eventParams, Pageable pageable) {
+        List<State> states = eventMapper.toStates(eventParams.getEventStates());
+
         return eventService.findAllByParams(
                 eventParams.getInitiatorIds(),
-                eventMapper.toStates(eventParams.getEventStates()),
+                states,
                 eventParams.getCategoryIds(),
                 eventParams.getRangeBegin(),
                 eventParams.getRangeEnd(),
@@ -99,7 +107,7 @@ public class EventAdminServiceImpl implements EventAdminService {
         return category;
     }
 
-    private void checkEventDateIsAfterEarlyStartOrThrow(
+    private void checkEventDateAfterEarlyStartOrThrow(
             long eventId, LocalDateTime eventDate, long hoursBeforeEarlyStart
     ) {
         if (eventDate == null) {
@@ -108,7 +116,49 @@ public class EventAdminServiceImpl implements EventAdminService {
 
         LocalDateTime earlyStart = LocalDateTime.now().plusHours(hoursBeforeEarlyStart);
         if (eventDate.isBefore(earlyStart)) {
-            throw ExceptionUtil.getEventDateIsTooEarlyException(eventId, eventDate);
+            throw ExceptionUtil.getEventDateTooEarlyException(eventId, eventDate);
+        }
+    }
+
+    private EventPublishedState getEventPublishedState(
+            long eventId, State currentState, EventStateAdminAction eventStateAdminAction
+    ) {
+        if (eventStateAdminAction == null) {
+            return new EventPublishedState(null, null);
+        }
+
+        LocalDateTime publishedOn;
+        State updatedState;
+
+        switch (eventStateAdminAction) {
+            case PUBLISH_EVENT:
+                checkEventPendingOrThrow(eventId, currentState);
+                publishedOn = LocalDateTime.now();
+                updatedState = State.PUBLISHED;
+                break;
+
+            case REJECT_EVENT:
+                checkEventNotPublishedYetOrThrow(eventId, currentState);
+                publishedOn = null;
+                updatedState = State.CANCELED;
+                break;
+
+            default:
+                throw new UnsupportedOperationException(eventStateAdminAction.name());
+        }
+
+        return new EventPublishedState(publishedOn, updatedState);
+    }
+
+    private void checkEventPendingOrThrow(long eventId, State state) {
+        if (state != State.PENDING) {
+            throw ExceptionUtil.getEventNotPendingException(eventId, state);
+        }
+    }
+
+    private void checkEventNotPublishedYetOrThrow(long eventId, State state) {
+        if (state == State.PUBLISHED) {
+            throw ExceptionUtil.getEventAlreadyPublishedException(eventId, state);
         }
     }
 

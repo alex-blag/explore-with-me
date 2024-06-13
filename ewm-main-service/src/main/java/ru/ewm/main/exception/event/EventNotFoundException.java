@@ -1,4 +1,4 @@
-package ru.ewm.main.exception;
+package ru.ewm.main.exception.event;
 
 public class EventNotFoundException extends RuntimeException {
 
