@@ -40,9 +40,11 @@ public class EventAdminServiceImpl implements EventAdminService {
     public Event updateById(long id, EventUpdateAdminRequestDto eventUpdateAdminRequestDto) {
         Event event = eventService.getByIdOrThrow(id);
 
-        checkEventDateAfterEarlyStartOrThrow(
-                id, eventUpdateAdminRequestDto.getEventDate(), ONE_HOUR_BEFORE_EARLY_START
-        );
+        if (eventUpdateAdminRequestDto.getEventDate() != null) {
+            EventUtil.checkEventDateAfterEarlyStartOrThrow(
+                    id, eventUpdateAdminRequestDto.getEventDate(), ONE_HOUR_BEFORE_EARLY_START
+            );
+        }
 
         Category category = getUpdatedCategoryOrCurrent(
                 eventUpdateAdminRequestDto.getCategoryId(), event.getCategory()
@@ -105,19 +107,6 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
 
         return category;
-    }
-
-    private void checkEventDateAfterEarlyStartOrThrow(
-            long eventId, LocalDateTime eventDate, long hoursBeforeEarlyStart
-    ) {
-        if (eventDate == null) {
-            return;
-        }
-
-        LocalDateTime earlyStart = LocalDateTime.now().plusHours(hoursBeforeEarlyStart);
-        if (eventDate.isBefore(earlyStart)) {
-            throw ExceptionUtil.getEventDateTooEarlyException(eventId, eventDate);
-        }
     }
 
     private EventPublishedState getEventPublishedState(

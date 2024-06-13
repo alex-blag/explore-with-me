@@ -22,6 +22,12 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
 
     @Override
+    @Transactional
+    public Event save(Event event) {
+        return eventRepository.save(event);
+    }
+
+    @Override
     public Event getByIdOrThrow(long id) {
         return eventRepository
                 .findById(id)
