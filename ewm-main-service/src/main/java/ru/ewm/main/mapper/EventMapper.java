@@ -7,6 +7,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ValueMapping;
+import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventListResponseDto;
 import ru.ewm.main.dto.event.EventResponseDto;
 import ru.ewm.main.dto.event.EventState;
@@ -16,7 +17,9 @@ import ru.ewm.main.model.Event;
 import ru.ewm.main.model.EventPublishedState;
 import ru.ewm.main.model.Location;
 import ru.ewm.main.model.State;
+import ru.ewm.main.model.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -47,6 +50,18 @@ public interface EventMapper {
             Location location,
             EventPublishedState eventPublishedState,
             @MappingTarget Event event
+    );
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "description", source = "eventCreateUserRequestDto.description")
+    @Mapping(target = "publishedOn", ignore = true)
+    Event toEvent(
+            EventCreateUserRequestDto eventCreateUserRequestDto,
+            LocalDateTime createdOn,
+            User initiator,
+            Category category,
+            Location location,
+            State state
     );
 
 }

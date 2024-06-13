@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface EventService {
 
+    Event save(Event event);
+
     Event getByIdOrThrow(long id);
 
     Page<Event> findAllByParams(
