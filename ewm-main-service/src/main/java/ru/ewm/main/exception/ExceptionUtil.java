@@ -37,6 +37,16 @@ public class ExceptionUtil {
         );
     }
 
+    public static EventNotFoundException getEventNotFoundException(long eventId, long initiatorId) {
+        return new EventNotFoundException(
+                String.format("%s [eventId = %d, initiatorId = %d]",
+                        ExceptionMessage.EVENT_NOT_FOUND,
+                        eventId,
+                        initiatorId
+                )
+        );
+    }
+
     public static EventDateTooEarlyException getEventDateTooEarlyException(long eventId, LocalDateTime eventDate) {
         return new EventDateTooEarlyException(
                 String.format(

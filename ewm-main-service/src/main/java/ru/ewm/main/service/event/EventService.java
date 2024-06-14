@@ -14,6 +14,8 @@ public interface EventService {
 
     Event getByIdOrThrow(long id);
 
+    Event getByIdAndInitiatorIdOrThrow(long id, long initiatorId);
+
     Page<Event> findAllByParams(
             List<Long> initiatorIds,
             List<State> states,

@@ -11,7 +11,9 @@ import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventListResponseDto;
 import ru.ewm.main.dto.event.EventResponseDto;
 import ru.ewm.main.dto.event.EventState;
+import ru.ewm.main.dto.event.EventStateUserAction;
 import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
+import ru.ewm.main.dto.event.EventUpdateUserRequestDto;
 import ru.ewm.main.model.Category;
 import ru.ewm.main.model.Event;
 import ru.ewm.main.model.EventPublishedState;
@@ -62,6 +64,27 @@ public interface EventMapper {
             Category category,
             Location location,
             State state
+    );
+
+    @ValueMapping(target = "PENDING", source = "SEND_TO_REVIEW")
+    @ValueMapping(target = "CANCELED", source = "CANCEL_REVIEW")
+    State toState(EventStateUserAction eventStateUserAction);
+
+    @BeanMapping(
+            nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+            nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
+    )
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
+    @Mapping(target = "initiator", ignore = true)
+    @Mapping(target = "publishedOn", ignore = true)
+    @Mapping(target = "state", source = "eventUpdateUserRequestDto.stateAction")
+    @Mapping(target = "description", source = "eventUpdateUserRequestDto.description")
+    void updateEvent(
+            EventUpdateUserRequestDto eventUpdateUserRequestDto,
+            Category category,
+            Location location,
+            @MappingTarget Event event
     );
 
 }

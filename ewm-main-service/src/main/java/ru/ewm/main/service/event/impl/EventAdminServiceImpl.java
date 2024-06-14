@@ -40,10 +40,9 @@ public class EventAdminServiceImpl implements EventAdminService {
     public Event updateById(long id, EventUpdateAdminRequestDto eventUpdateAdminRequestDto) {
         Event event = eventService.getByIdOrThrow(id);
 
-        if (eventUpdateAdminRequestDto.getEventDate() != null) {
-            EventUtil.checkEventDateAfterEarlyStartOrThrow(
-                    id, eventUpdateAdminRequestDto.getEventDate(), ONE_HOUR_BEFORE_EARLY_START
-            );
+        LocalDateTime eventDate = eventUpdateAdminRequestDto.getEventDate();
+        if (eventDate != null) {
+            EventUtil.checkEventDateAfterEarlyStartOrThrow(id, eventDate, ONE_HOUR_BEFORE_EARLY_START);
         }
 
         Category category = getUpdatedCategoryOrCurrent(
@@ -127,7 +126,7 @@ public class EventAdminServiceImpl implements EventAdminService {
                 break;
 
             case REJECT_EVENT:
-                checkEventNotPublishedYetOrThrow(eventId, currentState);
+                EventUtil.checkEventNotPublishedYetOrThrow(eventId, currentState);
                 publishedOn = null;
                 updatedState = State.CANCELED;
                 break;
@@ -142,12 +141,6 @@ public class EventAdminServiceImpl implements EventAdminService {
     private void checkEventPendingOrThrow(long eventId, State state) {
         if (state != State.PENDING) {
             throw ExceptionUtil.getEventNotPendingException(eventId, state);
-        }
-    }
-
-    private void checkEventNotPublishedYetOrThrow(long eventId, State state) {
-        if (state == State.PUBLISHED) {
-            throw ExceptionUtil.getEventAlreadyPublishedException(eventId, state);
         }
     }
 

@@ -35,6 +35,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public Event getByIdAndInitiatorIdOrThrow(long id, long initiatorId) {
+        return eventRepository
+                .findByIdAndInitiatorId(id, initiatorId)
+                .orElseThrow(() -> ExceptionUtil.getEventNotFoundException(id, initiatorId));
+    }
+
+    @Override
     public Page<Event> findAllByParams(
             List<Long> initiatorIds,
             List<State> states,
@@ -44,11 +51,11 @@ public class EventServiceImpl implements EventService {
             Pageable pageable
     ) {
         return eventRepository.findAllByParams(
-                initiatorIds,
-                states,
                 categoryIds,
+                initiatorIds,
                 rangeBegin,
                 rangeEnd,
+                states,
                 pageable
         );
     }
