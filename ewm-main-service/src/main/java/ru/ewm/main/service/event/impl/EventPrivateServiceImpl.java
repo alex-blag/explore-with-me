@@ -1,6 +1,8 @@
 package ru.ewm.main.service.event.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.dto.event.EventCreateUserRequestDto;
@@ -82,6 +84,11 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     @Override
     public Event getByIdAndInitiatorIdOrThrow(long id, long initiatorId) {
         return eventService.getByIdAndInitiatorIdOrThrow(id, initiatorId);
+    }
+
+    @Override
+    public Page<Event> findAllByInitiatorId(long initiatorId, Pageable pageable) {
+        return eventService.findAllByInitiatorId(initiatorId, pageable);
     }
 
     private Category getUpdatedCategoryOrCurrent(Long updatedCategoryId, Category currentCategory) {

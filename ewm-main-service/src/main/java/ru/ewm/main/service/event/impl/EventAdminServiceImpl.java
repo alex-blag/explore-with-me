@@ -69,11 +69,11 @@ public class EventAdminServiceImpl implements EventAdminService {
         List<State> states = eventMapper.toStates(eventParams.getEventStates());
 
         return eventService.findAllByParams(
-                eventParams.getInitiatorIds(),
-                states,
                 eventParams.getCategoryIds(),
+                eventParams.getInitiatorIds(),
                 eventParams.getRangeBegin(),
                 eventParams.getRangeEnd(),
+                states,
                 pageable
         );
     }
