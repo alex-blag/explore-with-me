@@ -18,8 +18,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("SELECT e " +
             "FROM Event e " +
-            "WHERE (COALESCE(:categoryIds) IS NULL OR c.id IN :categoryIds) " +
-            "   AND (COALESCE(:initiatorIds) IS NULL OR i.id IN :initiatorIds) " +
+            "WHERE (COALESCE(:categoryIds) IS NULL OR e.category.id IN :categoryIds) " +
+            "   AND (COALESCE(:initiatorIds) IS NULL OR e.initiator.id IN :initiatorIds) " +
             "   AND (COALESCE(:rangeBegin) IS NULL OR e.eventDate >= :rangeBegin) " +
             "   AND (COALESCE(:rangeEnd) IS NULL OR e.eventDate <= :rangeEnd) " +
             "   AND (COALESCE(:states) IS NULL OR e.state IN :states) ")
@@ -39,5 +39,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "   AND e.initiator.id = :initiatorId ")
     @EntityGraph(attributePaths = {"category", "initiator", "location"})
     Optional<Event> findByIdAndInitiatorId(long id, long initiatorId);
+
+    @Query("SELECT e " +
+            "FROM Event e " +
+            "WHERE e.initiator.id = :initiatorId ")
+    @EntityGraph(attributePaths = {"category", "initiator", "location"})
+    Page<Event> findAllByInitiatorId(long initiatorId, Pageable pageable);
 
 }

@@ -43,11 +43,11 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<Event> findAllByParams(
-            List<Long> initiatorIds,
-            List<State> states,
             List<Long> categoryIds,
+            List<Long> initiatorIds,
             LocalDateTime rangeBegin,
             LocalDateTime rangeEnd,
+            List<State> states,
             Pageable pageable
     ) {
         return eventRepository.findAllByParams(
@@ -58,6 +58,11 @@ public class EventServiceImpl implements EventService {
                 states,
                 pageable
         );
+    }
+
+    @Override
+    public Page<Event> findAllByInitiatorId(long initiatorId, Pageable pageable) {
+        return eventRepository.findAllByInitiatorId(initiatorId, pageable);
     }
 
 }

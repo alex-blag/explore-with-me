@@ -7,6 +7,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ValueMapping;
+import ru.ewm.main.dto.event.EventBriefListResponseDto;
 import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventListResponseDto;
 import ru.ewm.main.dto.event.EventResponseDto;
@@ -86,5 +87,7 @@ public interface EventMapper {
             Location location,
             @MappingTarget Event event
     );
+
+    EventBriefListResponseDto toEventBriefListResponseDto(List<Event> events, long totalElements);
 
 }
