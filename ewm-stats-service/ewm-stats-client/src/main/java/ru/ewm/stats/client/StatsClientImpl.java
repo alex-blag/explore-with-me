@@ -35,12 +35,12 @@ public class StatsClientImpl implements StatsClient {
     }
 
     @Override
-    public EndpointHitResponseDto saveHit(EndpointHitRequestDto endpointHitRequestDto) {
+    public EndpointHitResponseDto saveEndpointHit(EndpointHitRequestDto endpointHitRequestDto) {
         return restTemplate.postForObject(HIT_ENDPOINT, endpointHitRequestDto, EndpointHitResponseDto.class);
     }
 
     @Override
-    public List<ViewStatsResponseDto> getStats(
+    public List<ViewStatsResponseDto> getViewStats(
             LocalDateTime begin, LocalDateTime end, List<String> uris, boolean unique
     ) {
         URI uri = UriComponentsBuilder
