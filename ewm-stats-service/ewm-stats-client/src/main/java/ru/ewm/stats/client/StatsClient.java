@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface StatsClient {
 
-    EndpointHitResponseDto saveHit(EndpointHitRequestDto endpointHitRequestDto);
+    EndpointHitResponseDto saveEndpointHit(EndpointHitRequestDto endpointHitRequestDto);
 
-    List<ViewStatsResponseDto> getStats(LocalDateTime begin, LocalDateTime end, List<String> uris, boolean unique);
+    List<ViewStatsResponseDto> getViewStats(LocalDateTime begin, LocalDateTime end, List<String> uris, boolean unique);
 
 }
