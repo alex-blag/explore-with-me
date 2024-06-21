@@ -36,13 +36,13 @@ public class StatsServiceImpl implements StatsService {
         List<ViewStats> viewStats;
 
         if (!uris.isEmpty() && unique) {
-            viewStats = endpointHitRepository.findAllDistinctIp4ByTimestampBetweenAndUriIn(begin, end, uris);
+            viewStats = endpointHitRepository.findAllDistinctIpByTimestampBetweenAndUriIn(begin, end, uris);
 
         } else if (!uris.isEmpty()) {
             viewStats = endpointHitRepository.findAllByTimestampBetweenAndUriIn(begin, end, uris);
 
         } else if (unique) {
-            viewStats = endpointHitRepository.findAllDistinctIp4ByTimestampBetween(begin, end);
+            viewStats = endpointHitRepository.findAllDistinctIpByTimestampBetween(begin, end);
 
         } else {
             viewStats = endpointHitRepository.findAllByTimestampBetween(begin, end);

@@ -20,7 +20,7 @@ public class EndpointHitRequestDto {
     private String uri;
 
     @NotBlank
-    private String ip4;
+    private String ip;
 
     @NotNull
     private LocalDateTime timestamp;

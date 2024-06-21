@@ -50,7 +50,7 @@ public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long> 
             "SELECT " +
                     "   sa.name AS app, " +
                     "   eh.uri AS uri, " +
-                    "   COUNT(DISTINCT eh.ip4) AS hits " +
+                    "   COUNT(DISTINCT eh.ip) AS hits " +
                     "FROM " +
                     "   EndpointHit AS eh " +
                     "LEFT JOIN " +
@@ -61,13 +61,13 @@ public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long> 
                     "   eh.uri, " +
                     "   sa.name "
     )
-    List<ViewStats> findAllDistinctIp4ByTimestampBetween(LocalDateTime begin, LocalDateTime end);
+    List<ViewStats> findAllDistinctIpByTimestampBetween(LocalDateTime begin, LocalDateTime end);
 
     @Query(
             "SELECT " +
                     "   sa.name AS app, " +
                     "   eh.uri AS uri, " +
-                    "   COUNT(DISTINCT eh.ip4) AS hits " +
+                    "   COUNT(DISTINCT eh.ip) AS hits " +
                     "FROM " +
                     "   EndpointHit AS eh " +
                     "LEFT JOIN " +
@@ -80,7 +80,7 @@ public interface EndpointHitRepository extends JpaRepository<EndpointHit, Long> 
                     "   eh.uri, " +
                     "   sa.name "
     )
-    List<ViewStats> findAllDistinctIp4ByTimestampBetweenAndUriIn(
+    List<ViewStats> findAllDistinctIpByTimestampBetweenAndUriIn(
             LocalDateTime begin, LocalDateTime end, List<String> uris
     );
 
