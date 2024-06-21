@@ -28,5 +28,10 @@
             <groupId>ru.practicum</groupId>
             <artifactId>ewm-stats-common</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
 </project>
