@@ -1,0 +1,51 @@
+services:
+  stats-database:
+    image: postgres:15.7-alpine
+    container_name: stats-database
+    ports:
+      - "6543:5432"
+    environment:
+      - POSTGRES_DB=stats
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+
+  stats-service:
+    build:
+      context: ../ewm-stats-service/ewm-stats-server/
+      dockerfile: ./docker/Dockerfile
+    image: stats-service
+    container_name: stats-service
+    ports:
+      - "9090:8080"
+    depends_on:
+      - stats-database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-database:5432/stats
+      - SPRING_DATASOURCE_USERNAME=dev
+      - SPRING_DATASOURCE_PASSWORD=dev
+
+  main-database:
+    image: postgres:15.7-alpine
+    container_name: main-database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=main
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+
+  main-service:
+    build:
+      context: ../ewm-main-service/
+      dockerfile: ./docker/Dockerfile
+    image: main-service
+    container_name: main-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - main-database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-database:5432/main
+      - SPRING_DATASOURCE_USERNAME=dev
+      - SPRING_DATASOURCE_PASSWORD=dev
+      - EWM_STATS_SERVER_URL=http://stats-service:8080
