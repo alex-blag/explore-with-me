@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS endpoint_hits (
     id          BIGINT          GENERATED ALWAYS AS IDENTITY,
     app_id      BIGINT          NOT NULL,
     uri         VARCHAR(250)    NOT NULL,
-    ip4         VARCHAR(15)     NOT NULL,
+    ip          VARCHAR(15)     NOT NULL,
     time_stamp  TIMESTAMP       NOT NULL,
 
     CONSTRAINT pk_endpoint_hits PRIMARY KEY (id),
