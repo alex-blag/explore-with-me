@@ -3,6 +3,7 @@ package ru.ewm.main.service.event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.ewm.main.model.Event;
+import ru.ewm.main.model.Sorting;
 import ru.ewm.main.model.State;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,16 @@ public interface EventService {
             LocalDateTime rangeBegin,
             LocalDateTime rangeEnd,
             List<State> states,
+            Pageable pageable
+    );
+
+    Page<Event> findAllByParams(
+            String search,
+            List<Long> categoryIds,
+            LocalDateTime rangeBegin,
+            LocalDateTime rangeEnd,
+            Boolean paid,
+            Sorting sorting,
             Pageable pageable
     );
 

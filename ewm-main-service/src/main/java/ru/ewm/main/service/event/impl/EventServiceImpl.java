@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.model.Event;
+import ru.ewm.main.model.Sorting;
 import ru.ewm.main.model.State;
 import ru.ewm.main.repository.EventRepository;
 import ru.ewm.main.service.event.EventService;
@@ -56,6 +57,26 @@ public class EventServiceImpl implements EventService {
                 rangeBegin,
                 rangeEnd,
                 states,
+                pageable
+        );
+    }
+
+    @Override
+    public Page<Event> findAllByParams(
+            String search,
+            List<Long> categoryIds,
+            LocalDateTime rangeBegin,
+            LocalDateTime rangeEnd,
+            Boolean paid,
+            Sorting sorting,
+            Pageable pageable
+    ) {
+        return eventRepository.findAllByParams(
+                search,
+                categoryIds,
+                rangeBegin,
+                rangeEnd,
+                paid,
                 pageable
         );
     }

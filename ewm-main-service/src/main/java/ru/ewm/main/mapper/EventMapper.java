@@ -10,6 +10,7 @@ import org.mapstruct.ValueMapping;
 import ru.ewm.main.dto.event.EventBriefListResponseDto;
 import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventListResponseDto;
+import ru.ewm.main.dto.event.EventPublicSorting;
 import ru.ewm.main.dto.event.EventResponseDto;
 import ru.ewm.main.dto.event.EventState;
 import ru.ewm.main.dto.event.EventStateUserAction;
@@ -19,6 +20,7 @@ import ru.ewm.main.model.Category;
 import ru.ewm.main.model.Event;
 import ru.ewm.main.model.EventPublishedState;
 import ru.ewm.main.model.Location;
+import ru.ewm.main.model.Sorting;
 import ru.ewm.main.model.State;
 import ru.ewm.main.model.User;
 
@@ -89,5 +91,7 @@ public interface EventMapper {
     );
 
     EventBriefListResponseDto toEventBriefListResponseDto(List<Event> events, long totalElements);
+
+    Sorting toSorting(EventPublicSorting sorting);
 
 }
