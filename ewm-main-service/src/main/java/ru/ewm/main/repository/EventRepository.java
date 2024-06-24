@@ -46,4 +46,25 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @EntityGraph(attributePaths = {"category", "initiator", "location"})
     Page<Event> findAllByInitiatorId(long initiatorId, Pageable pageable);
 
+    @Query("SELECT e " +
+            "FROM Event e " +
+            "WHERE ( " +
+            "       COALESCE(:search) IS NULL " +
+            "       OR UPPER(e.annotation) LIKE CONCAT('%',UPPER(:search),'%') " +
+            "       OR UPPER(e.description) LIKE CONCAT('%',UPPER(:search),'%') " +
+            "   ) " +
+            "   AND (COALESCE(:categoryIds) IS NULL OR e.category.id IN :categoryIds) " +
+            "   AND (COALESCE(:rangeBegin) IS NULL OR e.eventDate >= :rangeBegin) " +
+            "   AND (COALESCE(:rangeEnd) IS NULL OR e.eventDate <= :rangeEnd) " +
+            "   AND (COALESCE(:paid) IS NULL OR e.paid = :paid) ")
+    @EntityGraph(attributePaths = {"category", "initiator", "location"})
+    Page<Event> findAllByParams(
+            String search,
+            List<Long> categoryIds,
+            LocalDateTime rangeBegin,
+            LocalDateTime rangeEnd,
+            Boolean paid,
+            Pageable pageable
+    );
+
 }
