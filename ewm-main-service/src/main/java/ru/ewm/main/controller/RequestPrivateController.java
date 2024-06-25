@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ewm.main.dto.request.RequestForParticipationListResponseDto;
 import ru.ewm.main.dto.request.RequestForParticipationResponseDto;
 import ru.ewm.main.mapper.RequestMapper;
-import ru.ewm.main.model.Request;
+import ru.ewm.main.model.request.Request;
 import ru.ewm.main.service.request.RequestPrivateService;
 
 import javax.validation.constraints.Positive;

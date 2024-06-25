@@ -1,6 +1,6 @@
 package ru.ewm.main.service.request;
 
-import ru.ewm.main.model.Request;
+import ru.ewm.main.model.request.Request;
 
 public interface RequestService {
 

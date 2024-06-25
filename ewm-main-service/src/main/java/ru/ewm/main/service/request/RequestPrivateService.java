@@ -2,7 +2,7 @@ package ru.ewm.main.service.request;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ru.ewm.main.model.Request;
+import ru.ewm.main.model.request.Request;
 
 public interface RequestPrivateService {
 

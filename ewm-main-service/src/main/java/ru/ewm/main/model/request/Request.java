@@ -1,9 +1,10 @@
-package ru.ewm.main.model;
+package ru.ewm.main.model.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import ru.ewm.main.model.User;
 import ru.ewm.main.model.event.Event;
 
 import javax.persistence.*;

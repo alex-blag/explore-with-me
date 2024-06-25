@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.ewm.main.dto.request.RequestForParticipationListResponseDto;
 import ru.ewm.main.dto.request.RequestForParticipationResponseDto;
-import ru.ewm.main.model.Request;
-import ru.ewm.main.model.RequestStatus;
+import ru.ewm.main.model.request.Request;
+import ru.ewm.main.model.request.RequestStatus;
 import ru.ewm.main.model.User;
 import ru.ewm.main.model.event.Event;
 
