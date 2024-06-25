@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventUpdateUserRequestDto;
-import ru.ewm.main.model.Event;
+import ru.ewm.main.model.event.Event;
 
 public interface EventPrivateService {
 
@@ -12,7 +12,9 @@ public interface EventPrivateService {
 
     Event updateByIdAndInitiatorId(long id, long initiatorId, EventUpdateUserRequestDto eventUpdateUserRequestDto);
 
-    Event getByIdAndInitiatorIdOrThrow(long eventId, long initiatorId);
+    Event getByIdOrThrow(long id);
+
+    Event getByIdAndInitiatorIdOrThrow(long id, long initiatorId);
 
     Page<Event> findAllByInitiatorId(long initiatorId, Pageable pageable);
 

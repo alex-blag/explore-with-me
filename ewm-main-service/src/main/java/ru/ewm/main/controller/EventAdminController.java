@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.ewm.main.dto.event.EventAdminParams;
 import ru.ewm.main.dto.event.EventListResponseDto;
 import ru.ewm.main.dto.event.EventResponseDto;
-import ru.ewm.main.dto.event.EventState;
+import ru.ewm.main.dto.event.EventStateDto;
 import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
 import ru.ewm.main.mapper.EventMapper;
-import ru.ewm.main.model.Event;
+import ru.ewm.main.model.event.Event;
 import ru.ewm.main.service.event.EventAdminService;
 
 import javax.validation.Valid;
@@ -48,7 +48,7 @@ public class EventAdminController {
     @GetMapping
     public EventListResponseDto getAllEventsByParams(
             @RequestParam(defaultValue = "") List<Long> initiatorIds,
-            @RequestParam(defaultValue = "") List<EventState> eventStates,
+            @RequestParam(defaultValue = "") List<EventStateDto> eventStates,
             @RequestParam(defaultValue = "") List<Long> categoryIds,
             @RequestParam(required = false) LocalDateTime rangeBegin,
             @RequestParam(required = false) LocalDateTime rangeEnd,

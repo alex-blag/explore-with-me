@@ -1,9 +1,12 @@
-package ru.ewm.main.model;
+package ru.ewm.main.model.event;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import ru.ewm.main.model.Category;
+import ru.ewm.main.model.Location;
+import ru.ewm.main.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -56,11 +59,14 @@ public class Event {
     @Column(name = "request_moderation")
     private Boolean requestModeration;
 
-    @Column(name = "state", nullable = false, length = 120)
+    @Column(name = "state", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
-    private State state;
+    private EventState state;
 
     @Column(name = "title", nullable = false, length = 120)
     private String title;
+
+    @Transient
+    private Long confirmedRequests;
 
 }

@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.exception.ExceptionUtil;
-import ru.ewm.main.model.Event;
-import ru.ewm.main.model.Sorting;
-import ru.ewm.main.model.State;
+import ru.ewm.main.model.event.Event;
+import ru.ewm.main.model.event.EventSorting;
+import ru.ewm.main.model.event.EventState;
 import ru.ewm.main.repository.EventRepository;
 import ru.ewm.main.service.event.EventService;
 
@@ -48,7 +48,7 @@ public class EventServiceImpl implements EventService {
             List<Long> initiatorIds,
             LocalDateTime rangeBegin,
             LocalDateTime rangeEnd,
-            List<State> states,
+            List<EventState> states,
             Pageable pageable
     ) {
         return eventRepository.findAllByParams(
@@ -68,7 +68,7 @@ public class EventServiceImpl implements EventService {
             LocalDateTime rangeBegin,
             LocalDateTime rangeEnd,
             Boolean paid,
-            Sorting sorting,
+            EventSorting sorting,
             Pageable pageable
     ) {
         return eventRepository.findAllByParams(

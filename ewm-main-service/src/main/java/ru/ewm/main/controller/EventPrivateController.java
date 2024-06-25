@@ -20,7 +20,7 @@ import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventResponseDto;
 import ru.ewm.main.dto.event.EventUpdateUserRequestDto;
 import ru.ewm.main.mapper.EventMapper;
-import ru.ewm.main.model.Event;
+import ru.ewm.main.model.event.Event;
 import ru.ewm.main.service.event.EventPrivateService;
 
 import javax.validation.Valid;

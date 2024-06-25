@@ -1,4 +1,4 @@
-package ru.ewm.main.model;
+package ru.ewm.main.model.event;
 
 import lombok.Value;
 
@@ -9,6 +9,6 @@ public class EventPublishedState {
 
     LocalDateTime publishedOn;
 
-    State state;
+    EventState state;
 
 }

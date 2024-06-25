@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.ewm.main.model.Event;
-import ru.ewm.main.model.State;
+import ru.ewm.main.model.event.Event;
+import ru.ewm.main.model.event.EventState;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +29,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             List<Long> initiatorIds,
             LocalDateTime rangeBegin,
             LocalDateTime rangeEnd,
-            List<State> states,
+            List<EventState> states,
             Pageable pageable
     );
 
