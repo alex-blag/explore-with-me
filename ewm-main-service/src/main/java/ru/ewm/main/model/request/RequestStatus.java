@@ -1,4 +1,4 @@
-package ru.ewm.main.model;
+package ru.ewm.main.model.request;
 
 public enum RequestStatus {
 

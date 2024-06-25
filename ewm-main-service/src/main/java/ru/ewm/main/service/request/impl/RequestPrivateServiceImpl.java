@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.mapper.RequestMapper;
-import ru.ewm.main.model.Request;
-import ru.ewm.main.model.RequestStatus;
 import ru.ewm.main.model.User;
 import ru.ewm.main.model.event.Event;
 import ru.ewm.main.model.event.EventState;
+import ru.ewm.main.model.request.Request;
+import ru.ewm.main.model.request.RequestStatus;
 import ru.ewm.main.service.event.EventPrivateService;
 import ru.ewm.main.service.request.RequestPrivateService;
 import ru.ewm.main.service.request.RequestService;
@@ -52,27 +52,12 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
     @Override
     @Transactional
     public Request cancelByIdAndRequesterId(long id, long requesterId) {
-
         throw new UnsupportedOperationException();
-
-        /*checkUserExistsOrThrow(requesterId, userPrivateService.existsById(requesterId));
-
-        Predicate p = buildQRequestPredicateByIdAndRequesterId(id, requesterId);
-        Request request = requestService.findOne(p);
-        request.setStatus(RequestStatus.CANCELED);
-
-        return request;*/
     }
 
     @Override
     public Page<Request> findAllByRequesterId(long requesterId, Pageable pageable) {
-
         throw new UnsupportedOperationException();
-
-        /*checkUserExistsOrThrow(requesterId, userPrivateService.existsById(requesterId));
-
-        Predicate p = buildQRequestPredicateByRequesterId(requesterId);
-        return requestService.findAll(p);*/
     }
 
     private void checkRequestNotCreatedYetOrThrow(long eventId, long requesterId) {
@@ -105,66 +90,5 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
                 ? RequestStatus.PENDING
                 : RequestStatus.CONFIRMED;
     }
-
-    /*@Override
-    public List<Request> findAllByEventIdAndInitiatorId(long eventId, long initiatorId) {
-        checkUserExistsOrThrow(initiatorId, userPrivateService.existsById(initiatorId));
-        checkEventExistsOrThrow(eventId, eventPrivateService.existsByIdAndInitiatorId(eventId, initiatorId));
-
-        Predicate p = buildQRequestPredicateByEventId(eventId);
-        return requestService.findAll(p);
-    }*/
-
-    /*private Predicate buildQRequestPredicateByIdAndRequesterId(long id, long requesterId) {
-        return buildQRequestPredicateByIdAndEventIdAndRequesterId(id, null, requesterId);
-    }
-
-    private Predicate buildQRequestPredicateByEventId(long eventId) {
-        return buildQRequestPredicateByIdAndEventIdAndRequesterId(null, eventId, null);
-    }
-
-    private Predicate buildQRequestPredicateByRequesterId(long requesterId) {
-        return buildQRequestPredicateByIdAndEventIdAndRequesterId(null, null, requesterId);
-    }
-
-    private Predicate buildQRequestPredicateByEventIdAndRequesterId(long eventId, long requesterId) {
-        return buildQRequestPredicateByIdAndEventIdAndRequesterId(null, eventId, requesterId);
-    }
-
-    private Predicate buildQRequestPredicateByIdAndEventIdAndRequesterId(Long id, Long eventId, Long requesterId) {
-        BooleanBuilder builder = new BooleanBuilder();
-
-        if (id != null) {
-            builder.and(Q_REQUEST.id.eq(id));
-        }
-
-        if (eventId != null) {
-            builder.and(Q_REQUEST.event.id.eq(eventId));
-        }
-
-        if (requesterId != null) {
-            builder.and(Q_REQUEST.requester.id.eq(requesterId));
-        }
-
-        return builder;
-    }
-
-    private Predicate buildQRequestPredicateByIds(List<Long> ids) {
-        return buildQRequestPredicateByIdsAndStatus(ids, null);
-    }
-
-    private Predicate buildQRequestPredicateByIdsAndStatus(List<Long> ids, RequestStatus status) {
-        BooleanBuilder builder = new BooleanBuilder();
-
-        if (ids != null) {
-            builder.and(Q_REQUEST.id.in(ids));
-        }
-
-        if (status != null) {
-            builder.and(Q_REQUEST.status.eq(status));
-        }
-
-        return builder;
-    }*/
 
 }
