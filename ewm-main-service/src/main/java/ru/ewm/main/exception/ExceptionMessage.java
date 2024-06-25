@@ -28,4 +28,6 @@ public class ExceptionMessage {
 
     public static final String EVENT_PARTICIPANT_LIMIT_REACHED = "Event participant limit reached";
 
+    public static final String REQUEST_NOT_FOUND = "Request not found";
+
 }

@@ -42,7 +42,7 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
         event.setConfirmedRequests(confirmedRequests);
         checkEventParticipantLimitNotReachedOrThrow(event);
 
-        // TODO -- update views
+        // TODO -- update views ?
 
         User requester = userPrivateService.getByIdOrThrow(requesterId);
         Request request = requestMapper.toRequest(LocalDateTime.now(), event, requester, getRequestStatus(event));
@@ -52,12 +52,17 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
     @Override
     @Transactional
     public Request cancelByIdAndRequesterId(long id, long requesterId) {
-        throw new UnsupportedOperationException();
+        checkRequesterExistsOrThrow(requesterId);
+
+        Request request = requestService.getByIdOrThrow(id);
+        request.setStatus(RequestStatus.CANCELED);
+        return request;
     }
 
     @Override
     public Page<Request> findAllByRequesterId(long requesterId, Pageable pageable) {
-        throw new UnsupportedOperationException();
+        checkRequesterExistsOrThrow(requesterId);
+        return requestService.findAllByRequesterId(requesterId, pageable);
     }
 
     private void checkRequestNotCreatedYetOrThrow(long eventId, long requesterId) {
@@ -89,6 +94,12 @@ public class RequestPrivateServiceImpl implements RequestPrivateService {
         return event.getRequestModeration()
                 ? RequestStatus.PENDING
                 : RequestStatus.CONFIRMED;
+    }
+
+    private void checkRequesterExistsOrThrow(long requesterId) {
+        if (!userPrivateService.existsById(requesterId)) {
+            throw ExceptionUtil.getUserNotFoundException(requesterId);
+        }
     }
 
 }
