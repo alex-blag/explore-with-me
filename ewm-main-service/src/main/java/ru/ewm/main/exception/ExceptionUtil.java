@@ -9,6 +9,7 @@ import ru.ewm.main.exception.event.EventNotPendingException;
 import ru.ewm.main.exception.event.EventNotPublishedException;
 import ru.ewm.main.exception.event.EventParticipantLimitReachedException;
 import ru.ewm.main.exception.request.RequestAlreadyCreatedException;
+import ru.ewm.main.exception.request.RequestNotFoundException;
 import ru.ewm.main.exception.request.RequesterOwnsEventException;
 import ru.ewm.main.model.event.EventState;
 
@@ -127,6 +128,12 @@ public class ExceptionUtil {
                         eventId,
                         participantLimit
                 )
+        );
+    }
+
+    public static RequestNotFoundException getRequestNotFoundException(long requestId) {
+        return new RequestNotFoundException(
+                String.format("%s [requestId = %d]", ExceptionMessage.REQUEST_NOT_FOUND, requestId)
         );
     }
 
