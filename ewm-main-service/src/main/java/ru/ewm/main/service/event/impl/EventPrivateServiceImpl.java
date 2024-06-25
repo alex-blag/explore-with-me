@@ -9,10 +9,10 @@ import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventUpdateUserRequestDto;
 import ru.ewm.main.mapper.EventMapper;
 import ru.ewm.main.model.Category;
-import ru.ewm.main.model.Event;
 import ru.ewm.main.model.Location;
-import ru.ewm.main.model.State;
 import ru.ewm.main.model.User;
+import ru.ewm.main.model.event.Event;
+import ru.ewm.main.model.event.EventState;
 import ru.ewm.main.service.category.CategoryPrivateService;
 import ru.ewm.main.service.event.EventPrivateService;
 import ru.ewm.main.service.event.EventService;
@@ -45,7 +45,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         User initiator = userPrivateService.getByIdOrThrow(initiatorId);
         Category category = categoryPrivateService.getByIdOrThrow(eventCreateUserRequestDto.getCategoryId());
         Location location = locationPrivateService.getByIdOrThrow(eventCreateUserRequestDto.getLocationId());
-        State state = State.PENDING;
+        EventState state = EventState.PENDING;
 
         Event event = eventMapper.toEvent(eventCreateUserRequestDto, createdOn, initiator, category, location, state);
 
@@ -79,6 +79,11 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         // TODO -- update confirmed requests and views ?
 
         return event;
+    }
+
+    @Override
+    public Event getByIdOrThrow(long id) {
+        return eventService.getByIdOrThrow(id);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class EventAdminParams {
 
     List<Long> initiatorIds;
 
-    List<EventState> eventStates;
+    List<EventStateDto> eventStates;
 
     List<Long> categoryIds;
 

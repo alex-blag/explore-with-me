@@ -15,7 +15,7 @@ import ru.ewm.main.dto.event.EventPublicParams;
 import ru.ewm.main.dto.event.EventPublicSorting;
 import ru.ewm.main.dto.event.EventResponseDto;
 import ru.ewm.main.mapper.EventMapper;
-import ru.ewm.main.model.Event;
+import ru.ewm.main.model.event.Event;
 import ru.ewm.main.service.event.EventPublicService;
 import ru.ewm.main.service.stats.StatsPublicService;
 import ru.ewm.stats.dto.EndpointHitRequestDto;

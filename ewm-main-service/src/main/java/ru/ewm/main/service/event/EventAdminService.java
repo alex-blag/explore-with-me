@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ru.ewm.main.dto.event.EventAdminParams;
 import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
-import ru.ewm.main.model.Event;
+import ru.ewm.main.model.event.Event;
 
 public interface EventAdminService {
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.dto.event.EventPublicParams;
 import ru.ewm.main.mapper.EventMapper;
-import ru.ewm.main.model.Event;
+import ru.ewm.main.model.event.Event;
 import ru.ewm.main.service.event.EventPublicService;
 import ru.ewm.main.service.event.EventService;
 

@@ -3,7 +3,7 @@ package ru.ewm.main.service.event.impl;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.ewm.main.exception.ExceptionUtil;
-import ru.ewm.main.model.State;
+import ru.ewm.main.model.event.EventState;
 
 import java.time.LocalDateTime;
 
@@ -25,8 +25,8 @@ public class EventUtil {
         checkEventDateAfterEarlyStartOrThrow(NON_EXISTENT_DEFAULT_EVENT_ID, eventDate, hoursBeforeEarlyStart);
     }
 
-    public static void checkEventNotPublishedYetOrThrow(long eventId, State state) {
-        if (state == State.PUBLISHED) {
+    public static void checkEventNotPublishedYetOrThrow(long eventId, EventState state) {
+        if (state == EventState.PUBLISHED) {
             throw ExceptionUtil.getEventAlreadyPublishedException(eventId, state);
         }
     }

@@ -22,4 +22,10 @@ public class ExceptionMessage {
 
     public static final String EVENT_ALREADY_PUBLISHED = "Event already published";
 
+    public static final String REQUEST_ALREADY_CREATED = "Request already created";
+
+    public static final String REQUESTER_OWNS_EVENT = "Requester owns event";
+
+    public static final String EVENT_PARTICIPANT_LIMIT_REACHED = "Event participant limit reached";
+
 }

@@ -2,9 +2,9 @@ package ru.ewm.main.service.event;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ru.ewm.main.model.Event;
-import ru.ewm.main.model.Sorting;
-import ru.ewm.main.model.State;
+import ru.ewm.main.model.event.Event;
+import ru.ewm.main.model.event.EventSorting;
+import ru.ewm.main.model.event.EventState;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +22,7 @@ public interface EventService {
             List<Long> initiatorIds,
             LocalDateTime rangeBegin,
             LocalDateTime rangeEnd,
-            List<State> states,
+            List<EventState> states,
             Pageable pageable
     );
 
@@ -32,7 +32,7 @@ public interface EventService {
             LocalDateTime rangeBegin,
             LocalDateTime rangeEnd,
             Boolean paid,
-            Sorting sorting,
+            EventSorting sorting,
             Pageable pageable
     );
 

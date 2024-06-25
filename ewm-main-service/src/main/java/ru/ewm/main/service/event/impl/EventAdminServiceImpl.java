@@ -11,10 +11,10 @@ import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
 import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.mapper.EventMapper;
 import ru.ewm.main.model.Category;
-import ru.ewm.main.model.Event;
-import ru.ewm.main.model.EventPublishedState;
 import ru.ewm.main.model.Location;
-import ru.ewm.main.model.State;
+import ru.ewm.main.model.event.Event;
+import ru.ewm.main.model.event.EventPublishedState;
+import ru.ewm.main.model.event.EventState;
 import ru.ewm.main.service.category.CategoryAdminService;
 import ru.ewm.main.service.event.EventAdminService;
 import ru.ewm.main.service.event.EventService;
@@ -66,7 +66,7 @@ public class EventAdminServiceImpl implements EventAdminService {
 
     @Override
     public Page<Event> findAllByParams(EventAdminParams eventParams, Pageable pageable) {
-        List<State> states = eventMapper.toStates(eventParams.getEventStates());
+        List<EventState> states = eventMapper.toStates(eventParams.getEventStates());
 
         return eventService.findAllByParams(
                 eventParams.getCategoryIds(),
@@ -109,26 +109,26 @@ public class EventAdminServiceImpl implements EventAdminService {
     }
 
     private EventPublishedState getEventPublishedState(
-            long eventId, State currentState, EventStateAdminAction eventStateAdminAction
+            long eventId, EventState currentState, EventStateAdminAction eventStateAdminAction
     ) {
         if (eventStateAdminAction == null) {
             return new EventPublishedState(null, null);
         }
 
         LocalDateTime publishedOn;
-        State updatedState;
+        EventState updatedState;
 
         switch (eventStateAdminAction) {
             case PUBLISH_EVENT:
                 checkEventPendingOrThrow(eventId, currentState);
                 publishedOn = LocalDateTime.now();
-                updatedState = State.PUBLISHED;
+                updatedState = EventState.PUBLISHED;
                 break;
 
             case REJECT_EVENT:
                 EventUtil.checkEventNotPublishedYetOrThrow(eventId, currentState);
                 publishedOn = null;
-                updatedState = State.CANCELED;
+                updatedState = EventState.CANCELED;
                 break;
 
             default:
@@ -138,8 +138,8 @@ public class EventAdminServiceImpl implements EventAdminService {
         return new EventPublishedState(publishedOn, updatedState);
     }
 
-    private void checkEventPendingOrThrow(long eventId, State state) {
-        if (state != State.PENDING) {
+    private void checkEventPendingOrThrow(long eventId, EventState state) {
+        if (state != EventState.PENDING) {
             throw ExceptionUtil.getEventNotPendingException(eventId, state);
         }
     }

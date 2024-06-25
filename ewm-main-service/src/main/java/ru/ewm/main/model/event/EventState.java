@@ -1,4 +1,4 @@
-package ru.ewm.main.dto.event;
+package ru.ewm.main.model.event;
 
 public enum EventState {
 

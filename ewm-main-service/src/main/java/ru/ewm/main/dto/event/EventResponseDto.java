@@ -36,7 +36,7 @@ public class EventResponseDto {
 
     private Boolean requestModeration;
 
-    private EventState state;
+    private EventStateDto state;
 
     private String title;
 

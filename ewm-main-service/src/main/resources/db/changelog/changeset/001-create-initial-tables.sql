@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS events (
     , participant_limit     INT             DEFAULT 0
     , published_on          TIMESTAMP
     , request_moderation    BOOLEAN         DEFAULT TRUE
-    , state                 VARCHAR(120)    CHECK (state IN ('PENDING', 'PUBLISHED', 'CANCELED'))
+    , state                 VARCHAR(10)    CHECK (state IN ('PENDING', 'PUBLISHED', 'CANCELED'))
     , title                 VARCHAR(120)    NOT NULL
 
     , CONSTRAINT pk_events PRIMARY KEY (id)
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS requests (
     , created       TIMESTAMP       NOT NULL
     , event_id      BIGINT          NOT NULL
     , requester_id  BIGINT          NOT NULL
-    , status        VARCHAR(120)    NOT NULL
+    , status        VARCHAR(10)     CHECK (status IN ('PENDING', 'CONFIRMED', 'CANCELED', 'REJECTED'))
 
     , CONSTRAINT pk_requests PRIMARY KEY (id)
     , CONSTRAINT fk_requests__events FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE

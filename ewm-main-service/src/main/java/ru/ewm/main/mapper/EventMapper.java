@@ -12,17 +12,17 @@ import ru.ewm.main.dto.event.EventCreateUserRequestDto;
 import ru.ewm.main.dto.event.EventListResponseDto;
 import ru.ewm.main.dto.event.EventPublicSorting;
 import ru.ewm.main.dto.event.EventResponseDto;
-import ru.ewm.main.dto.event.EventState;
+import ru.ewm.main.dto.event.EventStateDto;
 import ru.ewm.main.dto.event.EventStateUserAction;
 import ru.ewm.main.dto.event.EventUpdateAdminRequestDto;
 import ru.ewm.main.dto.event.EventUpdateUserRequestDto;
 import ru.ewm.main.model.Category;
-import ru.ewm.main.model.Event;
-import ru.ewm.main.model.EventPublishedState;
 import ru.ewm.main.model.Location;
-import ru.ewm.main.model.Sorting;
-import ru.ewm.main.model.State;
 import ru.ewm.main.model.User;
+import ru.ewm.main.model.event.Event;
+import ru.ewm.main.model.event.EventPublishedState;
+import ru.ewm.main.model.event.EventSorting;
+import ru.ewm.main.model.event.EventState;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,7 +37,7 @@ public interface EventMapper {
     @ValueMapping(target = "PENDING", source = "PENDING")
     @ValueMapping(target = "PUBLISHED", source = "PUBLISHED")
     @ValueMapping(target = "CANCELED", source = "CANCELED")
-    List<State> toStates(List<EventState> eventStates);
+    List<EventState> toStates(List<EventStateDto> eventStates);
 
     @BeanMapping(
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
@@ -66,12 +66,12 @@ public interface EventMapper {
             User initiator,
             Category category,
             Location location,
-            State state
+            EventState state
     );
 
     @ValueMapping(target = "PENDING", source = "SEND_TO_REVIEW")
     @ValueMapping(target = "CANCELED", source = "CANCEL_REVIEW")
-    State toState(EventStateUserAction eventStateUserAction);
+    EventState toState(EventStateUserAction eventStateUserAction);
 
     @BeanMapping(
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
@@ -92,6 +92,6 @@ public interface EventMapper {
 
     EventBriefListResponseDto toEventBriefListResponseDto(List<Event> events, long totalElements);
 
-    Sorting toSorting(EventPublicSorting sorting);
+    EventSorting toSorting(EventPublicSorting sorting);
 
 }
