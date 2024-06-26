@@ -38,4 +38,6 @@ public interface EventService {
 
     Page<Event> findAllByInitiatorId(long initiatorId, Pageable pageable);
 
+    List<Event> findAllByIds(List<Long> ids);
+
 }

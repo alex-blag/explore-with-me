@@ -86,4 +86,9 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAllByInitiatorId(initiatorId, pageable);
     }
 
+    @Override
+    public List<Event> findAllByIds(List<Long> ids) {
+        return eventRepository.findAllByIdIn(ids);
+    }
+
 }

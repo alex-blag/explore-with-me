@@ -30,4 +30,6 @@ public class ExceptionMessage {
 
     public static final String REQUEST_NOT_FOUND = "Request not found";
 
+    public static final String COMPILATION_NOT_FOUND = "Compilation not found";
+
 }

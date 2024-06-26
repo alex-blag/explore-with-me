@@ -137,4 +137,10 @@ public class ExceptionUtil {
         );
     }
 
+    public static CompilationNotFoundException getCompilationNotFoundException(long compilationId) {
+        return new CompilationNotFoundException(
+                String.format("%s [compilationId = %d]", ExceptionMessage.COMPILATION_NOT_FOUND, compilationId)
+        );
+    }
+
 }

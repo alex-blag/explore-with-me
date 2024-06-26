@@ -78,6 +78,11 @@ public class EventAdminServiceImpl implements EventAdminService {
         );
     }
 
+    @Override
+    public List<Event> findAllByIds(List<Long> ids) {
+        return eventService.findAllByIds(ids);
+    }
+
     private Location getUpdatedLocationOrCurrent(Long updateLocationId, Location location) {
         if (updateLocationId == null) {
             return location;
