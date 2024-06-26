@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS events (
     , participant_limit     INT             DEFAULT 0
     , published_on          TIMESTAMP
     , request_moderation    BOOLEAN         DEFAULT TRUE
-    , state                 VARCHAR(10)    CHECK (state IN ('PENDING', 'PUBLISHED', 'CANCELED'))
+    , state                 VARCHAR(10)     CHECK (state IN ('PENDING', 'PUBLISHED', 'CANCELED'))
     , title                 VARCHAR(120)    NOT NULL
 
     , CONSTRAINT pk_events PRIMARY KEY (id)
@@ -71,11 +71,11 @@ CREATE TABLE IF NOT EXISTS compilations (
     , CONSTRAINT pk_compilations PRIMARY KEY (id)
 );
 
---CREATE TABLE IF NOT EXISTS compilation_events (
---    compilation_id  BIGINT NOT NULL
---    , event_id      BIGINT NOT NULL
---
---    , CONSTRAINT pk_compilation_events PRIMARY KEY (compilation_id, event_id)
---    , CONSTRAINT fk_compilation_events__compilations FOREIGN KEY (compilation_id) REFERENCES compilations(id) ON DELETE CASCADE
---    , CONSTRAINT fk_compilation_events__events FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
---);
+CREATE TABLE IF NOT EXISTS compilations_events (
+    compilation_id  BIGINT NOT NULL
+    , event_id      BIGINT NOT NULL
+
+    , CONSTRAINT pk_compilations_events PRIMARY KEY (compilation_id, event_id)
+    , CONSTRAINT fk_compilations_events__compilations FOREIGN KEY (compilation_id) REFERENCES compilations(id) ON DELETE CASCADE
+    , CONSTRAINT fk_compilations_events__events FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
+);

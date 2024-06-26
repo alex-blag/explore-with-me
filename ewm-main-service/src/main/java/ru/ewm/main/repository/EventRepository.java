@@ -67,4 +67,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             Pageable pageable
     );
 
+    @Query("SELECT e " +
+            "FROM Event e " +
+            "WHERE COALESCE(:ids) IS NULL OR e.id IN :ids ")
+    @EntityGraph(attributePaths = {"category", "initiator", "location"})
+    List<Event> findAllByIdIn(List<Long> ids);
+
 }
