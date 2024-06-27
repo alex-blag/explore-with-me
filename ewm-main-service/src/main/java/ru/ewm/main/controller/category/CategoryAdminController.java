@@ -1,4 +1,4 @@
-package ru.ewm.main.controller;
+package ru.ewm.main.controller.category;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
