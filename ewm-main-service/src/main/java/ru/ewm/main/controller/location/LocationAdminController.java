@@ -1,4 +1,4 @@
-package ru.ewm.main.controller;
+package ru.ewm.main.controller.location;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
