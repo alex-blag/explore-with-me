@@ -8,8 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.model.request.Request;
 import ru.ewm.main.model.request.RequestStatus;
+import ru.ewm.main.model.request.RequestTuple;
 import ru.ewm.main.repository.RequestRepository;
 import ru.ewm.main.service.request.RequestService;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -43,6 +46,11 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public Page<Request> findAllByRequesterId(long requesterId, Pageable pageable) {
         return requestRepository.findAllByRequesterId(requesterId, pageable);
+    }
+
+    @Override
+    public List<RequestTuple> countAllConfirmedRequestsByEventIds(List<Long> eventIds) {
+        return requestRepository.countAllConfirmedRequestsByEventIdIn(eventIds);
     }
 
 }

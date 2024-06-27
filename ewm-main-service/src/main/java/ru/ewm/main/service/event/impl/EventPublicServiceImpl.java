@@ -11,6 +11,8 @@ import ru.ewm.main.model.event.Event;
 import ru.ewm.main.service.event.EventPublicService;
 import ru.ewm.main.service.event.EventService;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -35,6 +37,11 @@ public class EventPublicServiceImpl implements EventPublicService {
                 params.getPaid(),
                 eventMapper.toSorting(params.getSorting()),
                 pageable);
+    }
+
+    @Override
+    public void updateNumberOfConfirmedRequests(List<Event> events) {
+        eventService.updateNumberOfConfirmedRequests(events);
     }
 
 }
