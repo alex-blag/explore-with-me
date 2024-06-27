@@ -39,9 +39,9 @@ public class UserAdminController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDto createUser(
-            @RequestBody @Valid UserCreateRequestDto userDto
+            @RequestBody @Valid UserCreateRequestDto userCreateRequestDto
     ) {
-        User user = userAdminService.save(userDto);
+        User user = userAdminService.save(userCreateRequestDto);
         return userMapper.toUserResponseDto(user);
     }
 
