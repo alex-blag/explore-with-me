@@ -32,4 +32,6 @@ public class ExceptionMessage {
 
     public static final String COMPILATION_NOT_FOUND = "Compilation not found";
 
+    public static final String CATEGORY_HAS_ASSOCIATED_EVENTS = "Category has associated events";
+
 }

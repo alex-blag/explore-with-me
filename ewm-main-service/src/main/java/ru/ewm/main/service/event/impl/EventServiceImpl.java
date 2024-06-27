@@ -108,9 +108,14 @@ public class EventServiceImpl implements EventService {
                 .collect(Collectors
                         .toMap(RequestTuple::getEventId, RequestTuple::getNumberOfConfirmedRequests));
 
-        events.forEach(event -> {
-            event.setConfirmedRequests(eventIdToConfirmedNumber.getOrDefault(event.getId(), 0L));
-        });
+        events.forEach(event -> event.setConfirmedRequests(
+                eventIdToConfirmedNumber.getOrDefault(event.getId(), 0L)
+        ));
+    }
+
+    @Override
+    public boolean existsByCategoryId(long categoryId) {
+        return eventRepository.existsByCategoryId(categoryId);
     }
 
 }

@@ -9,6 +9,7 @@ import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.model.Category;
 import ru.ewm.main.repository.CategoryRepository;
 import ru.ewm.main.service.category.CategoryService;
+import ru.ewm.main.service.event.EventService;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,6 +17,7 @@ import ru.ewm.main.service.category.CategoryService;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final EventService eventService;
 
     @Override
     @Transactional
@@ -38,10 +40,21 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteById(long id) {
+        checkCategoryExistsOrThrow(id);
+        checkCategoryHasNoAssociatedEventsOrThrow(id);
+        categoryRepository.deleteById(id);
+    }
+
+    private void checkCategoryExistsOrThrow(long id) {
         if (!categoryRepository.existsById(id)) {
             throw ExceptionUtil.getCategoryNotFoundException(id);
         }
-        categoryRepository.deleteById(id);
+    }
+
+    private void checkCategoryHasNoAssociatedEventsOrThrow(long id) {
+        if (eventService.existsByCategoryId(id)) {
+            throw ExceptionUtil.getCategoryHasAssociatedEventsException(id);
+        }
     }
 
 }

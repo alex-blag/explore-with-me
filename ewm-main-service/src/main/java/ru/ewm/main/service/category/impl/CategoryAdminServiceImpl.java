@@ -41,7 +41,6 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        // TODO -- check category has no associated events or throw
         categoryService.deleteById(id);
     }
 

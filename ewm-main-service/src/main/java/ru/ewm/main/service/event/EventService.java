@@ -42,4 +42,6 @@ public interface EventService {
 
     void updateNumberOfConfirmedRequests(List<Event> events);
 
+    boolean existsByCategoryId(long categoryId);
+
 }

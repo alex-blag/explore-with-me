@@ -73,4 +73,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @EntityGraph(attributePaths = {"category", "initiator", "location"})
     List<Event> findAllByIdIn(List<Long> ids);
 
+    boolean existsByCategoryId(long categoryId);
+
 }
