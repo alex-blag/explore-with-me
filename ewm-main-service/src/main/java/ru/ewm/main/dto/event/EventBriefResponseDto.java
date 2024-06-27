@@ -23,4 +23,6 @@ public class EventBriefResponseDto {
 
     private String title;
 
+    private Long confirmedRequests;
+
 }

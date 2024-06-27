@@ -7,6 +7,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import ru.ewm.main.dto.compilation.CompilationCreateRequestDto;
+import ru.ewm.main.dto.compilation.CompilationListResponseDto;
 import ru.ewm.main.dto.compilation.CompilationResponseDto;
 import ru.ewm.main.dto.compilation.CompilationUpdateRequestDto;
 import ru.ewm.main.model.Compilation;
@@ -23,8 +24,6 @@ public interface CompilationMapper {
 
     CompilationResponseDto toCompilationResponseDto(Compilation compilation);
 
-    List<CompilationResponseDto> toCompilationResponseDtos(List<Compilation> compilations);
-
     @BeanMapping(
             nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
             nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
@@ -36,5 +35,7 @@ public interface CompilationMapper {
             List<Event> events,
             @MappingTarget Compilation compilation
     );
+
+    CompilationListResponseDto toCompilationListResponseDto(List<Compilation> compilations, long totalElements);
 
 }

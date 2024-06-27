@@ -49,6 +49,7 @@ public interface EventMapper {
     @Mapping(target = "publishedOn", source = "eventPublishedState.publishedOn")
     @Mapping(target = "state", source = "eventPublishedState.state")
     @Mapping(target = "description", source = "eventUpdateAdminRequestDto.description")
+        // TODO --  Unmapped target property: "confirmedRequests".
     void updateEvent(
             EventUpdateAdminRequestDto eventUpdateAdminRequestDto,
             Category category,
@@ -60,6 +61,7 @@ public interface EventMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "description", source = "eventCreateUserRequestDto.description")
     @Mapping(target = "publishedOn", ignore = true)
+        // TODO --  Unmapped target property: "confirmedRequests".
     Event toEvent(
             EventCreateUserRequestDto eventCreateUserRequestDto,
             LocalDateTime createdOn,
@@ -83,6 +85,7 @@ public interface EventMapper {
     @Mapping(target = "publishedOn", ignore = true)
     @Mapping(target = "state", source = "eventUpdateUserRequestDto.stateAction")
     @Mapping(target = "description", source = "eventUpdateUserRequestDto.description")
+        // TODO --  Unmapped target property: "confirmedRequests".
     void updateEvent(
             EventUpdateUserRequestDto eventUpdateUserRequestDto,
             Category category,

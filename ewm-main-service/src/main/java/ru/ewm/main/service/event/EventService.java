@@ -40,4 +40,6 @@ public interface EventService {
 
     List<Event> findAllByIds(List<Long> ids);
 
+    void updateNumberOfConfirmedRequests(List<Event> events);
+
 }
