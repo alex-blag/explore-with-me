@@ -50,7 +50,6 @@ public class LocationAdminServiceImpl implements LocationAdminService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        // TODO -- check location has no associated events or throw ?
         locationService.deleteById(id);
     }
 

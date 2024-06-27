@@ -149,4 +149,10 @@ public class ExceptionUtil {
         );
     }
 
+    public static LocationHasAssociatedEventsException getLocationHasAssociatedEventsException(long locationId) {
+        return new LocationHasAssociatedEventsException(
+                String.format("%s [locationId = %d]", ExceptionMessage.LOCATION_HAS_ASSOCIATED_EVENTS, locationId)
+        );
+    }
+
 }

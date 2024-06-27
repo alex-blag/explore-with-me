@@ -42,6 +42,8 @@ public interface EventService {
 
     void updateNumberOfConfirmedRequests(List<Event> events);
 
-    boolean existsByCategoryId(long categoryId);
+    boolean existsByCategoryId(long categoryId); // TODO -- check category deletion
+
+    boolean existsByLocationId(long locationId); // TODO -- check location deletion
 
 }

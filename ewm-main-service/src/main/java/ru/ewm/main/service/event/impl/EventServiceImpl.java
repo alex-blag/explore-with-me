@@ -118,4 +118,9 @@ public class EventServiceImpl implements EventService {
         return eventRepository.existsByCategoryId(categoryId);
     }
 
+    @Override
+    public boolean existsByLocationId(long locationId) {
+        return eventRepository.existsByLocationId(locationId);
+    }
+
 }

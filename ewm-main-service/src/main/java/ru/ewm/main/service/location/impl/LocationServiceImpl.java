@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.exception.ExceptionUtil;
 import ru.ewm.main.model.Location;
 import ru.ewm.main.repository.LocationRepository;
+import ru.ewm.main.service.event.EventService;
 import ru.ewm.main.service.location.LocationService;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
+    private final EventService eventService;
 
     @Override
     @Transactional
@@ -40,10 +42,21 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional
     public void deleteById(long id) {
+        checkLocationExistsOrThrow(id);
+        checkLocationHasNoAssociatedEventsOrThrow(id);
+        locationRepository.deleteById(id);
+    }
+
+    private void checkLocationExistsOrThrow(long id) {
         if (!locationRepository.existsById(id)) {
             throw ExceptionUtil.getLocationNotFoundException(id);
         }
-        locationRepository.deleteById(id);
+    }
+
+    private void checkLocationHasNoAssociatedEventsOrThrow(long id) {
+        if (eventService.existsByLocationId(id)) {
+            throw ExceptionUtil.getLocationHasAssociatedEventsException(id);
+        }
     }
 
 }
