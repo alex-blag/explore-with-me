@@ -6,9 +6,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.model.Compilation;
+import ru.ewm.main.model.event.Event;
 import ru.ewm.main.service.compilation.CompilationPublicService;
 import ru.ewm.main.service.compilation.CompilationService;
 import ru.ewm.main.service.event.EventPublicService;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,34 +32,15 @@ public class CompilationPublicServiceImpl implements CompilationPublicService {
 
     @Override
     public Page<Compilation> findAllByPinned(Boolean pinned, Pageable pageable) {
-        throw new UnsupportedOperationException();
+        Page<Compilation> compilations = compilationService.findAllByPinned(pinned, pageable);
+        List<Event> events = compilations.getContent()
+                .stream()
+                .map(Compilation::getEvents)
+                .flatMap(Collection::stream)
+                .collect(Collectors
+                        .toList());
+        eventPublicService.updateNumberOfConfirmedRequests(events);
+        return compilations; // TODO -- update views ?
     }
-
-//    @Override
-//    public List<Compilation> findAllByPinned(Boolean pinned, int page, int size) {
-//        Predicate p = buildQCompilationPredicateByPinned(pinned);
-//        Pageable pageable = PageRequest.of(page, size);
-//        List<Compilation> compilations = compilationService.findAll(p, pageable);
-//
-//        List<Event> events = compilations
-//                .stream()
-//                .map(Compilation::getEvents)
-//                .flatMap(Collection::stream)
-//                .collect(toList());
-//
-//        eventPublicService.updateConfirmedRequestsAndViews(events);
-//
-//        return compilations;
-//    }
-//
-//    private Predicate buildQCompilationPredicateByPinned(Boolean pinned) {
-//        BooleanBuilder builder = new BooleanBuilder();
-//
-//        if (pinned != null) {
-//            builder.and(Q_COMPILATION.pinned.eq(pinned));
-//        }
-//
-//        return builder;
-//    }
 
 }
