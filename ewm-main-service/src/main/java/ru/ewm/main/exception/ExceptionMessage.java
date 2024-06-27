@@ -34,4 +34,6 @@ public class ExceptionMessage {
 
     public static final String CATEGORY_HAS_ASSOCIATED_EVENTS = "Category has associated events";
 
+    public static final String LOCATION_HAS_ASSOCIATED_EVENTS = "Location has associated events";
+
 }

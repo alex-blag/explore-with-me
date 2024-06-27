@@ -75,4 +75,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     boolean existsByCategoryId(long categoryId);
 
+    boolean existsByLocationId(long locationId);
+
 }
