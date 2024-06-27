@@ -1,6 +1,8 @@
 package ru.ewm.main.service.compilation.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ewm.main.exception.ExceptionUtil;
@@ -34,6 +36,11 @@ public class CompilationServiceImpl implements CompilationService {
             throw ExceptionUtil.getCompilationNotFoundException(id);
         }
         compilationRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Compilation> findAllByPinned(Boolean pinned, Pageable pageable) {
+        return compilationRepository.findAllByPinned(pinned, pageable);
     }
 
 }
