@@ -143,4 +143,10 @@ public class ExceptionUtil {
         );
     }
 
+    public static CategoryHasAssociatedEventsException getCategoryHasAssociatedEventsException(long categoryId) {
+        return new CategoryHasAssociatedEventsException(
+                String.format("%s [categoryId = %d]", ExceptionMessage.CATEGORY_HAS_ASSOCIATED_EVENTS, categoryId)
+        );
+    }
+
 }
