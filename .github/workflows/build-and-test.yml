@@ -20,14 +20,14 @@ jobs:
           cache: maven
 
       - name: Run the Maven install phase
-        run: mvn --batch-mode --update-snapshots install
+        run: mvn --batch-mode --update-snapshots clean package
 
       - name: Start Docker containers
         run: |
           docker compose --file ./docker/docker-compose.yml up -d
 
-      - name: Sleep for 5 seconds
-        run: sleep 5
+      - name: Sleep for 30 seconds
+        run: sleep 30
 
       - name: Run Postman collection
         uses: matt-ball/newman-action@master
