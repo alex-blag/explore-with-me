@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "44b8d721-871b-4690-925c-26d63851f2fe",
+		"name": "explore-with-me",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10809037"
+	},
+	"item": [
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "admin",
+					"item": [
+						{
+							"name": "createCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Response should have 201 status code and JSON body', function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    pm.response.to.have.jsonBody;\r",
+											"});\r",
+											"\r",
+											"const jsonResp = pm.response.json();\r",
+											"\r",
+											"pm.test('JSON body should have (id, name) fields', function () {\r",
+											"    pm.expect(jsonResp).to.have.property('id');\r",
+											"    pm.expect(jsonResp).to.have.property('name');\r",
+											"});\r",
+											"\r",
+											"const jsonReq = JSON.parse(pm.request.body.raw);\r",
+											"\r",
+											"pm.test('JSON data should be valid', function () {\r",
+											"    pm.expect(jsonResp.id).to.not.be.null;\r",
+											"    pm.expect(jsonResp.id).to.be.greaterThan(0);\r",
+											"    pm.expect(jsonResp.name).to.eql(jsonReq.name);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomWord}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/categories",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Response should have 200 status code and JSON body', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.have.jsonBody;\r",
+											"});\r",
+											"\r",
+											"const jsonResp = pm.response.json();\r",
+											"\r",
+											"pm.test('JSON body should have (id, name) fields', function () {\r",
+											"    pm.expect(jsonResp).to.have.property('id');\r",
+											"    pm.expect(jsonResp).to.have.property('name');\r",
+											"});\r",
+											"\r",
+											"pm.test('JSON data should be valid', function () {\r",
+											"    const jsonReq = JSON.parse(pm.request.body.raw);\r",
+											"    const categoryId = pm.collectionVariables.get('category_id');\r",
+											"\r",
+											"    pm.expect(jsonResp.id).to.not.be.null;\r",
+											"    pm.expect(jsonResp.id).to.be.eql(categoryId);\r",
+											"    pm.expect(jsonResp.name).to.be.eql(jsonReq.name);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const baseUrl = pm.collectionVariables.get('base_url');\r",
+											"\r",
+											"const postRequest = {\r",
+											"    url: baseUrl + '/admin/categories',\r",
+											"    method: 'POST',\r",
+											"    header: {\r",
+											"        'Content-Type': 'application/json'\r",
+											"    },\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify(utils.getCategory())\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        pm.collectionVariables.set('category_id', response.json().id);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomWord}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/categories/:categoryId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"categories",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "{{category_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Response should have 204 status code', function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const baseUrl = pm.collectionVariables.get('base_url');\r",
+											"\r",
+											"const postRequest = {\r",
+											"    url: baseUrl + '/admin/categories',\r",
+											"    method: 'POST',\r",
+											"    header: {\r",
+											"        'Content-Type': 'application/json'\r",
+											"    },\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify(utils.getCategory())\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(postRequest, (error, response) => {\r",
+											"    if (error) {\r",
+											"        console.log(error);\r",
+											"    } else {\r",
+											"        pm.collectionVariables.set('category_id', response.json().id);\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/categories/:categoryId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"categories",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "{{category_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "public",
+					"item": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"utils = {\r",
+					"    getCategory: function () {\r",
+					"        return {\r",
+					"            name: pm.variables.replaceIn('{{$randomWord}}')\r",
+					"        }\r",
+					"    }\r",
+					"};\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "category_id",
+			"value": ""
+		}
+	]
+}
