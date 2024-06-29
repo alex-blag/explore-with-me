@@ -39,9 +39,9 @@ public class CategoryAdminController {
     @PatchMapping("/{categoryId}")
     public CategoryResponseDto updateCategoryById(
             @PathVariable long categoryId,
-            @RequestBody @Valid CategoryUpdateRequestDto categoryUpdateDto
+            @RequestBody @Valid CategoryUpdateRequestDto categoryUpdateRequestDto
     ) {
-        Category category = categoryAdminService.updateById(categoryId, categoryUpdateDto);
+        Category category = categoryAdminService.updateById(categoryId, categoryUpdateRequestDto);
         return categoryMapper.toCategoryResponseDto(category);
     }
 
