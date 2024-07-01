@@ -26,9 +26,9 @@ jobs:
         run: |
           docker compose --file ./docker/docker-compose.yml up -d
 
-      - name: URL Health Check
+      - name: Check Service is up and running...
         run: |
-          curl --retry 3 --retry-delay 5 --retry-all-errors http://localhost:8080/actuator/health
+          curl --retry 5 --retry-delay 5 --retry-all-errors http://localhost:8080/actuator/health
 
       - name: Run Postman collection
         uses: matt-ball/newman-action@master
