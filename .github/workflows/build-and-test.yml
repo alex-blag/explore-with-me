@@ -27,11 +27,8 @@ jobs:
           docker compose --file ./docker/docker-compose.yml up -d
 
       - name: URL Health Check
-        uses: Jtalk/url-health-check-action@v4
-        with:
-          url: http://localhost:8080/actuator/health
-          max-attempts: 3
-          retry-delay: 10s
+        run: |
+          curl --retry 3 --retry-delay 5 --retry-all-errors http://localhost:8080/actuator/health
 
       - name: Run Postman collection
         uses: matt-ball/newman-action@master
