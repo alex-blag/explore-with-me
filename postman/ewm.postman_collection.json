@@ -19,25 +19,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test('Response should have 201 status code and JSON body', function () {\r",
-											"    pm.response.to.have.status(201);\r",
-											"    pm.response.to.have.jsonBody;\r",
-											"});\r",
-											"\r",
-											"const jsonResp = pm.response.json();\r",
-											"\r",
-											"pm.test('JSON body should have (id, name) fields', function () {\r",
-											"    pm.expect(jsonResp).to.have.property('id');\r",
-											"    pm.expect(jsonResp).to.have.property('name');\r",
-											"});\r",
-											"\r",
-											"const jsonReq = JSON.parse(pm.request.body.raw);\r",
-											"\r",
-											"pm.test('JSON data should be valid', function () {\r",
-											"    pm.expect(jsonResp.id).to.not.be.null;\r",
-											"    pm.expect(jsonResp.id).to.be.greaterThan(0);\r",
-											"    pm.expect(jsonResp.name).to.eql(jsonReq.name);\r",
-											"});\r",
+											"utils.validateResponse201StatusCodeAndJsonBody(pm);\r",
+											"utils.validateCategorySchema(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -77,26 +60,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test('Response should have 200 status code and JSON body', function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"    pm.response.to.have.jsonBody;\r",
-											"});\r",
-											"\r",
-											"const jsonResp = pm.response.json();\r",
-											"\r",
-											"pm.test('JSON body should have (id, name) fields', function () {\r",
-											"    pm.expect(jsonResp).to.have.property('id');\r",
-											"    pm.expect(jsonResp).to.have.property('name');\r",
-											"});\r",
-											"\r",
-											"pm.test('JSON data should be valid', function () {\r",
-											"    const jsonReq = JSON.parse(pm.request.body.raw);\r",
-											"    const categoryId = pm.collectionVariables.get('category_id');\r",
-											"\r",
-											"    pm.expect(jsonResp.id).to.not.be.null;\r",
-											"    pm.expect(jsonResp.id).to.be.eql(categoryId);\r",
-											"    pm.expect(jsonResp.name).to.be.eql(jsonReq.name);\r",
-											"});\r",
+											"utils.validateResponse200StatusCodeAndJsonBody(pm);\r",
+											"utils.validateCategorySchema(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -107,27 +72,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"const baseUrl = pm.collectionVariables.get('base_url');\r",
-											"\r",
-											"const postRequest = {\r",
-											"    url: baseUrl + '/admin/categories',\r",
-											"    method: 'POST',\r",
-											"    header: {\r",
-											"        'Content-Type': 'application/json'\r",
-											"    },\r",
-											"    body: {\r",
-											"        mode: 'raw',\r",
-											"        raw: JSON.stringify(utils.getCategory())\r",
-											"    }\r",
-											"};\r",
-											"\r",
-											"pm.sendRequest(postRequest, (error, response) => {\r",
-											"    if (error) {\r",
-											"        console.log(error);\r",
-											"    } else {\r",
-											"        pm.collectionVariables.set('category_id', response.json().id);\r",
-											"    }\r",
-											"});\r",
+											"utils.createCategory(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -174,9 +119,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test('Response should have 204 status code', function () {\r",
-											"    pm.response.to.have.status(204);\r",
-											"});\r",
+											"utils.validateResponse204StatusCode(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -187,27 +130,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"const baseUrl = pm.collectionVariables.get('base_url');\r",
-											"\r",
-											"const postRequest = {\r",
-											"    url: baseUrl + '/admin/categories',\r",
-											"    method: 'POST',\r",
-											"    header: {\r",
-											"        'Content-Type': 'application/json'\r",
-											"    },\r",
-											"    body: {\r",
-											"        mode: 'raw',\r",
-											"        raw: JSON.stringify(utils.getCategory())\r",
-											"    }\r",
-											"};\r",
-											"\r",
-											"pm.sendRequest(postRequest, (error, response) => {\r",
-											"    if (error) {\r",
-											"        console.log(error);\r",
-											"    } else {\r",
-											"        pm.collectionVariables.set('category_id', response.json().id);\r",
-											"    }\r",
-											"});\r",
+											"utils.createCategory(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -242,7 +165,57 @@
 				},
 				{
 					"name": "public",
-					"item": []
+					"item": [
+						{
+							"name": "getCategory",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"utils.validateResponse200StatusCodeAndJsonBody(pm);\r",
+											"utils.validateCategorySchema(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"utils.createCategory(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/categories/:categoryId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"categories",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "{{category_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -254,11 +227,70 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
+					"const baseUrl = pm.collectionVariables.get('base_url');\r",
+					"\r",
+					"const categorySchema = {\r",
+					"    \"type\": \"object\",\r",
+					"    \"properties\": {\r",
+					"        \"id\": { \"type\": \"integer\" },\r",
+					"        \"name\": { \"type\": \"string\" }\r",
+					"    },\r",
+					"    \"required\": [\"id\", \"name\"]\r",
+					"};\r",
+					"\r",
 					"utils = {\r",
-					"    getCategory: function () {\r",
+					"    validateResponse200StatusCodeAndJsonBody: (pm) => {\r",
+					"        pm.test('Response should have 200 status code and JSON body', function () {\r",
+					"            pm.response.to.have.status(200);\r",
+					"            pm.response.to.have.jsonBody;\r",
+					"        });\r",
+					"    },\r",
+					"\r",
+					"    validateResponse201StatusCodeAndJsonBody: (pm) => {\r",
+					"        pm.test('Response should have 201 status code and JSON body', function () {\r",
+					"            pm.response.to.have.status(201);\r",
+					"            pm.response.to.have.jsonBody;\r",
+					"        });\r",
+					"    },\r",
+					"\r",
+					"    validateResponse204StatusCode: (pm) => {\r",
+					"        pm.test('Response should have 204 status code', function () {\r",
+					"            pm.response.to.have.status(204);\r",
+					"        });\r",
+					"    },\r",
+					"\r",
+					"    validateCategorySchema: (pm) => {\r",
+					"        pm.test(\"Response should have valid Category schema\", () => {\r",
+					"            pm.response.to.have.jsonSchema(categorySchema);\r",
+					"        });\r",
+					"    },\r",
+					"\r",
+					"    buildCategory: (pm) => {\r",
 					"        return {\r",
 					"            name: pm.variables.replaceIn('{{$randomWord}}')\r",
 					"        }\r",
+					"    },\r",
+					"\r",
+					"    createCategory: (pm) => {\r",
+					"        const postRequest = {\r",
+					"            url: baseUrl + '/admin/categories',\r",
+					"            method: 'POST',\r",
+					"            header: {\r",
+					"                'Content-Type': 'application/json'\r",
+					"            },\r",
+					"            body: {\r",
+					"                mode: 'raw',\r",
+					"                raw: JSON.stringify(utils.buildCategory(pm))\r",
+					"            }\r",
+					"        };\r",
+					"\r",
+					"        pm.sendRequest(postRequest, (error, response) => {\r",
+					"            if (error) {\r",
+					"                console.error(error);\r",
+					"            } else {\r",
+					"                pm.collectionVariables.set('category_id', response.json().id);\r",
+					"            }\r",
+					"        });\r",
 					"    }\r",
 					"};\r",
 					""
