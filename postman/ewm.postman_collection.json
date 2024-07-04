@@ -195,7 +195,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"await preparer.createCategory(pm);\r",
+											"preparer.createCategory(pm);\r",
 											""
 										],
 										"type": "text/javascript",
