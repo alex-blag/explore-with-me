@@ -82,7 +82,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"await preparer.createCategory(pm);\r",
+											"preparer.createCategory(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -140,7 +140,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"await preparer.createCategory(pm);\r",
+											"preparer.createCategory(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -283,7 +283,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"await preparer.createUser(pm);\r",
+											"preparer.createUser(pm);\r",
 											""
 										],
 										"type": "text/javascript",
