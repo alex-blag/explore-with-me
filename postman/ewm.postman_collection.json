@@ -296,7 +296,7 @@
 										"exec": [
 											"tester.testResponse200StatusCodeAndJsonBody(pm);\r",
 											"tester.testUsersSchema(pm);\r",
-											"tester.testUsersTotalElementsEqual2(pm);\r",
+											"tester.testListResponseDtoTotalElementsEqual2(pm);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -378,6 +378,268 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "location",
+			"item": [
+				{
+					"name": "admin",
+					"item": [
+						{
+							"name": "createLocation",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"tester.testResponse201StatusCodeAndJsonBody(pm);\r",
+											"tester.testLocationResponseDtoSchema(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomWord}}\",\r\n    \"lat\": \"{{$randomLatitude}}\",\r\n    \"lon\": \"{{$randomLongitude}}\",\r\n    \"description\": \"{{$randomPhrase}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/locations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"locations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateLocation",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"preparer.createLocation(pm);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"tester.testResponse200StatusCodeAndJsonBody(pm);\r",
+											"tester.testLocationResponseDtoSchema(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomWord}}\",\r\n    \"lat\": \"{{$randomLatitude}}\",\r\n    \"lon\": \"{{$randomLongitude}}\",\r\n    \"description\": \"{{$randomPhrase}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/locations/:locationId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"locations",
+										":locationId"
+									],
+									"variable": [
+										{
+											"key": "locationId",
+											"value": "{{location_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getLocations",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"preparer.create2Locations(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"tester.testResponse200StatusCodeAndJsonBody(pm);\r",
+											"tester.testLocationListResponseDtoSchema(pm);\r",
+											"tester.testListResponseDtoTotalElementsEqual2(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/locations?locationIds={{location_ids}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"locations"
+									],
+									"query": [
+										{
+											"key": "locationIds",
+											"value": "{{location_ids}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteLocation",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"preparer.createLocation(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"tester.testResponse204StatusCode(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/locations/:locationId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"locations",
+										":locationId"
+									],
+									"variable": [
+										{
+											"key": "locationId",
+											"value": "{{location_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "public",
+					"item": [
+						{
+							"name": "getLocation",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"preparer.createLocation(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"tester.testResponse200StatusCodeAndJsonBody(pm);\r",
+											"tester.testLocationResponseDtoSchema(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/locations/:locationId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"locations",
+										":locationId"
+									],
+									"variable": [
+										{
+											"key": "locationId",
+											"value": "{{location_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
@@ -408,6 +670,20 @@
 					"        users.push(await this.createUser(pm));\r",
 					"        pm.collectionVariables.set('user_ids', users.map((user) => user.id));\r",
 					"        return users;\r",
+					"    },\r",
+					"\r",
+					"    createLocation: async function (pm) {\r",
+					"        const location = await this.sendRequest(pm, 'POST', '/admin/locations', builder.getLocation(pm));\r",
+					"        pm.collectionVariables.set('location_id', location.id);\r",
+					"        return location;\r",
+					"    },\r",
+					"\r",
+					"    create2Locations: async function (pm) {\r",
+					"        const locations = [];\r",
+					"        locations.push(await this.createLocation(pm));\r",
+					"        locations.push(await this.createLocation(pm));\r",
+					"        pm.collectionVariables.set('location_ids', locations.map((location) => location.id));\r",
+					"        return locations;\r",
 					"    },\r",
 					"\r",
 					"    sendRequest: async function (pm, method, path, body) {\r",
@@ -462,6 +738,15 @@
 					"            email: pm.variables.replaceIn('{{$randomExampleEmail}}'),\r",
 					"        }\r",
 					"    },\r",
+					"\r",
+					"    getLocation: (pm) => {\r",
+					"        return {\r",
+					"            name: pm.variables.replaceIn('{{$randomFullName}}'),\r",
+					"            lat: pm.variables.replaceIn('{{$randomLatitude}}'),\r",
+					"            lon: pm.variables.replaceIn('{{$randomLongitude}}'),\r",
+					"            description: pm.variables.replaceIn('{{$randomPhrase}}'),\r",
+					"        }\r",
+					"    },\r",
 					"};\r",
 					"\r",
 					"tester = {\r",
@@ -503,12 +788,25 @@
 					"        });\r",
 					"    },\r",
 					"\r",
-					"    testUsersTotalElementsEqual2: (pm) => {\r",
-					"        pm.test(\"Users totalElements should be equal 2\", () => {\r",
-					"            const users = pm.response.json();\r",
-					"            pm.expect(users.totalElements).equal(2);\r",
+					"    testLocationResponseDtoSchema: (pm) => {\r",
+					"        pm.test(\"Response should have valid LocationResponseDto schema\", () => {\r",
+					"            pm.response.to.have.jsonSchema(schemas.getLocationResponseDto());\r",
 					"        });\r",
 					"    },\r",
+					"\r",
+					"    testLocationListResponseDtoSchema: (pm) => {\r",
+					"        pm.test(\"Response should have valid LocationListResponseDto schema\", () => {\r",
+					"            pm.response.to.have.jsonSchema(schemas.getLocationListResponseDto());\r",
+					"        });\r",
+					"    },\r",
+					"\r",
+					"    testListResponseDtoTotalElementsEqual2: (pm) => {\r",
+					"        pm.test(\"*ListResponseDto totalElements should be equal 2\", () => {\r",
+					"            const json = pm.response.json();\r",
+					"            pm.expect(json.totalElements).equal(2);\r",
+					"        });\r",
+					"    },\r",
+					"\r",
 					"};\r",
 					"\r",
 					"schemas = {\r",
@@ -591,6 +889,85 @@
 					"            ]\r",
 					"        }\r",
 					"    },\r",
+					"\r",
+					"    getLocationResponseDto: () => {\r",
+					"        return {\r",
+					"            \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+					"            \"type\": \"object\",\r",
+					"            \"properties\": {\r",
+					"                \"id\": {\r",
+					"                    \"type\": \"integer\"\r",
+					"                },\r",
+					"                \"name\": {\r",
+					"                    \"type\": \"string\"\r",
+					"                },\r",
+					"                \"lat\": {\r",
+					"                    \"type\": \"number\"\r",
+					"                },\r",
+					"                \"lon\": {\r",
+					"                    \"type\": \"number\"\r",
+					"                },\r",
+					"                \"description\": {\r",
+					"                    \"type\": \"string\"\r",
+					"                }\r",
+					"            },\r",
+					"            \"required\": [\r",
+					"                \"id\",\r",
+					"                \"name\",\r",
+					"                \"lat\",\r",
+					"                \"lon\",\r",
+					"                \"description\"\r",
+					"            ]\r",
+					"        };\r",
+					"    },\r",
+					"\r",
+					"    getLocationListResponseDto: () => {\r",
+					"        return {\r",
+					"            \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+					"            \"type\": \"object\",\r",
+					"            \"properties\": {\r",
+					"                \"locations\": {\r",
+					"                    \"type\": \"array\",\r",
+					"                    \"items\": [\r",
+					"                        {\r",
+					"                            \"type\": \"object\",\r",
+					"                            \"properties\": {\r",
+					"                                \"id\": {\r",
+					"                                    \"type\": \"integer\"\r",
+					"                                },\r",
+					"                                \"name\": {\r",
+					"                                    \"type\": \"string\"\r",
+					"                                },\r",
+					"                                \"lat\": {\r",
+					"                                    \"type\": \"number\"\r",
+					"                                },\r",
+					"                                \"lon\": {\r",
+					"                                    \"type\": \"number\"\r",
+					"                                },\r",
+					"                                \"description\": {\r",
+					"                                    \"type\": \"string\"\r",
+					"                                }\r",
+					"                            },\r",
+					"                            \"required\": [\r",
+					"                                \"id\",\r",
+					"                                \"name\",\r",
+					"                                \"lat\",\r",
+					"                                \"lon\",\r",
+					"                                \"description\"\r",
+					"                            ]\r",
+					"                        }\r",
+					"                    ]\r",
+					"                },\r",
+					"                \"totalElements\": {\r",
+					"                    \"type\": \"integer\"\r",
+					"                }\r",
+					"            },\r",
+					"            \"required\": [\r",
+					"                \"locations\",\r",
+					"                \"totalElements\"\r",
+					"            ]\r",
+					"        };\r",
+					"    },\r",
 					"};\r",
 					""
 				]
@@ -623,6 +1000,14 @@
 		},
 		{
 			"key": "user_ids",
+			"value": ""
+		},
+		{
+			"key": "location_id",
+			"value": ""
+		},
+		{
+			"key": "location_ids",
 			"value": ""
 		}
 	]
