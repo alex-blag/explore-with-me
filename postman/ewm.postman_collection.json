@@ -277,6 +277,56 @@
 							"response": []
 						},
 						{
+							"name": "getUsers",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"preparer.create2Users(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"tester.testResponse200StatusCodeAndJsonBody(pm);\r",
+											"tester.testUsersSchema(pm);\r",
+											"tester.testUsersTotalElementsEqual2(pm);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users?userIds={{user_ids}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									],
+									"query": [
+										{
+											"key": "userIds",
+											"value": "{{user_ids}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "deleteUser",
 							"event": [
 								{
@@ -343,11 +393,21 @@
 					"    createCategory: async function (pm) {\r",
 					"        const category = await this.sendRequest(pm, 'POST', '/admin/categories', builder.getCategory(pm));\r",
 					"        pm.collectionVariables.set('category_id', category.id);\r",
+					"        return category;\r",
 					"    },\r",
 					"\r",
 					"    createUser: async function (pm) {\r",
 					"        const user = await this.sendRequest(pm, 'POST', '/admin/users', builder.getUser(pm));\r",
 					"        pm.collectionVariables.set('user_id', user.id);\r",
+					"        return user;\r",
+					"    },\r",
+					"\r",
+					"    create2Users: async function (pm) {\r",
+					"        const users = [];\r",
+					"        users.push(await this.createUser(pm));\r",
+					"        users.push(await this.createUser(pm));\r",
+					"        pm.collectionVariables.set('user_ids', users.map((user) => user.id));\r",
+					"        return users;\r",
 					"    },\r",
 					"\r",
 					"    sendRequest: async function (pm, method, path, body) {\r",
@@ -436,29 +496,99 @@
 					"            pm.response.to.have.jsonSchema(schemas.getUser());\r",
 					"        });\r",
 					"    },\r",
+					"\r",
+					"    testUsersSchema: (pm) => {\r",
+					"        pm.test(\"Response should have valid Users schema\", () => {\r",
+					"            pm.response.to.have.jsonSchema(schemas.getUsers());\r",
+					"        });\r",
+					"    },\r",
+					"\r",
+					"    testUsersTotalElementsEqual2: (pm) => {\r",
+					"        pm.test(\"Users totalElements should be equal 2\", () => {\r",
+					"            const users = pm.response.json();\r",
+					"            pm.expect(users.totalElements).equal(2);\r",
+					"        });\r",
+					"    },\r",
 					"};\r",
 					"\r",
 					"schemas = {\r",
 					"    getCategory: () => {\r",
 					"        return {\r",
+					"            \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
 					"            \"type\": \"object\",\r",
 					"            \"properties\": {\r",
-					"                \"id\": { \"type\": \"integer\" },\r",
-					"                \"name\": { \"type\": \"string\" },\r",
+					"                \"id\": {\r",
+					"                    \"type\": \"integer\"\r",
+					"                },\r",
+					"                \"name\": {\r",
+					"                    \"type\": \"string\"\r",
+					"                },\r",
 					"            },\r",
-					"            \"required\": [\"id\", \"name\"]\r",
+					"            \"required\": [\r",
+					"                \"id\",\r",
+					"                \"name\"\r",
+					"            ]\r",
 					"        }\r",
 					"    },\r",
 					"\r",
 					"    getUser: () => {\r",
 					"        return {\r",
+					"            \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
 					"            \"type\": \"object\",\r",
 					"            \"properties\": {\r",
-					"                \"id\": { \"type\": \"integer\" },\r",
-					"                \"name\": { \"type\": \"string\" },\r",
-					"                \"email\": { \"type\": \"string\" },\r",
+					"                \"id\": {\r",
+					"                    \"type\": \"integer\"\r",
+					"                },\r",
+					"                \"name\": {\r",
+					"                    \"type\": \"string\"\r",
+					"                },\r",
+					"                \"email\": {\r",
+					"                    \"type\": \"string\"\r",
+					"                }\r",
 					"            },\r",
-					"            \"required\": [\"id\", \"name\", \"email\"]\r",
+					"            \"required\": [\r",
+					"                \"id\",\r",
+					"                \"name\",\r",
+					"                \"email\"\r",
+					"            ]\r",
+					"        }\r",
+					"    },\r",
+					"\r",
+					"    getUsers: () => {\r",
+					"        return {\r",
+					"            \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+					"            \"type\": \"object\",\r",
+					"            \"properties\": {\r",
+					"                \"users\": {\r",
+					"                    \"type\": \"array\",\r",
+					"                    \"items\": [{\r",
+					"                        \"type\": \"object\",\r",
+					"                        \"properties\": {\r",
+					"                            \"id\": {\r",
+					"                                \"type\": \"integer\"\r",
+					"                            },\r",
+					"                            \"name\": {\r",
+					"                                \"type\": \"string\"\r",
+					"                            },\r",
+					"                            \"email\": {\r",
+					"                                \"type\": \"string\"\r",
+					"                            }\r",
+					"                        },\r",
+					"                        \"required\": [\r",
+					"                            \"id\",\r",
+					"                            \"name\",\r",
+					"                            \"email\"\r",
+					"                        ]\r",
+					"                    }]\r",
+					"                },\r",
+					"                \"totalElements\": {\r",
+					"                    \"type\": \"integer\"\r",
+					"                }\r",
+					"            },\r",
+					"            \"required\": [\r",
+					"                \"users\",\r",
+					"                \"totalElements\"\r",
+					"            ]\r",
 					"        }\r",
 					"    },\r",
 					"};\r",
@@ -489,6 +619,10 @@
 		},
 		{
 			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "user_ids",
 			"value": ""
 		}
 	]
